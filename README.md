@@ -5,6 +5,7 @@ Ano: 2020/2021
 #### Sistemas de Operação (SO) : 
 #### Segurança Informática e nas Organizações (SIO) : 
 #### Inteligência Artificial (IA) : 
+#### Redes de Comunicações-I (RC-I) : 
 
 ## 2º Semestre do 3º Ano
 
