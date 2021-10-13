@@ -1,8 +1,10 @@
 import functools
 
 def main():
-    lst = [1, 2, 3]
-    lst_bools = [x > 0 for x in lst]
+    lst1 = [1, 2, 3, 4]
+    lst2 = [1, 2, 3]
+
+    lst_bools = [x in lst2 for x in lst1]
     
     res = lambda x, y : x & y
     bool = functools.reduce(res, lst_bools)
@@ -10,6 +12,5 @@ def main():
     print(f'List -> {lst_bools}')
     print(f'Result -> {bool}')
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
