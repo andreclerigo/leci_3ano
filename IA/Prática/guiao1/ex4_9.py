@@ -3,13 +3,13 @@ def findMin(lst, func):
         return None
     
     if len(lst) == 1:
-       return (lst[0], [])
+       return lst[0]
     
-    (m, l) = findMin(lst[1:], func)
+    m = findMin(lst[1:], func)
 
     if func(lst[0], m):
-        return (lst[0], [m] + l)
-    return (m, [lst[0]] + l)
+        return lst[0]
+    return m
 
 def main():
     lst = [5, -2, 5, 2, 1, 19, 14, 2, 5]
