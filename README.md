@@ -1,5 +1,5 @@
 # 3ºano de LECI
-Ano: 2020/2021
+Ano: 2021/2022
 
 ## 1º Semestre do 3º Ano
 #### Sistemas de Operação (SO) : 
