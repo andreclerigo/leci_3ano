@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+    echo "A single argument is mandatory" 1>&2
+    exit 1
+fi
+
+if ! [ -f $1 ]
+then
+    echo "Given argument ($1) is not a regular file" 1>&2
+    exit 1
+fi
+
+head -n -5 $1 | tail -n +6 | sort
