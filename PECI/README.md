@@ -1,1 +1,1 @@
-# Projeto para a Engenharia de Computadores e Informática (PECI)
+# Projeto em Engenharia de Computadores e Informática (PECI)
