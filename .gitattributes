@@ -1,4 +1,3 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-* linguist-vendored
-SO/Prática/sofs21-grp/doc/html/* linguist-vendored=false
+SO/Prática/sofs21-grp/doc/html/* linguist-vendored
