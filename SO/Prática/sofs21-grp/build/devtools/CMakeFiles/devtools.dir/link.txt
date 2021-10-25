@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/andre/github/leci_3ano/SO/Prática/sofs21-grp/lib/libdevtools.a  CMakeFiles/devtools.dir/probing.cpp.o CMakeFiles/devtools.dir/binselection.cpp.o CMakeFiles/devtools.dir/blockviews.cpp.o
+/usr/bin/ranlib /home/andre/github/leci_3ano/SO/Prática/sofs21-grp/lib/libdevtools.a

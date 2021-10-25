@@ -1,0 +1,2 @@
+/usr/bin/ar qc /home/andre/github/leci_3ano/SO/Prática/sofs21-grp/lib/libcore.a  CMakeFiles/core.dir/exception.cpp.o CMakeFiles/core.dir/rawdisk.cpp.o
+/usr/bin/ranlib /home/andre/github/leci_3ano/SO/Prática/sofs21-grp/lib/libcore.a

@@ -1,0 +1,1 @@
+/usr/bin/c++   -Wall -D_FILE_OFFSET_BITS=64 -ggdb  -rdynamic CMakeFiles/showblock.dir/showblock.cpp.o  -o /home/andre/github/leci_3ano/SO/Prática/sofs21-grp/bin/showblock  /home/andre/github/leci_3ano/SO/Prática/sofs21-grp/lib/libdevtools.a /home/andre/github/leci_3ano/SO/Prática/sofs21-grp/lib/libcore.a 
