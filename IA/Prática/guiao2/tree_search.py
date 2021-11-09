@@ -90,6 +90,7 @@ class SearchTree:
         self.non_terminals = 0
         self.avg_branching = 0
         self.cost = None
+        self.max_cost_nodes = [root]
 
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self, node):
@@ -120,6 +121,10 @@ class SearchTree:
                 if newstate not in self.get_path(node):
                     newnode = SearchNode(newstate, node, node.depth + 1, node.cost + self.problem.domain.cost(node.state, a), self.problem.domain.heuristic(newstate, self.problem.goal))
                     lnewnodes.append(newnode)
+                    if node.cost > self.max_cost_nodes[0].cost:
+                        self.max_cost_nodes = [node]
+                    elif node.cost == self.max_cost_nodes[0].cost:
+                        self.max_cost_nodes.append(node)
 
             if limit == None:
                 self.add_to_open(lnewnodes)
