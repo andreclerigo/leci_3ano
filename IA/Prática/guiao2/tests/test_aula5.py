@@ -25,7 +25,7 @@ def test_exercicio13(braga_faro):
     assert t.search() == ['Braga', 'Porto', 'Agueda', 'Coimbra', 'Leiria', 'Santarem', 'Evora', 'Beja', 'Faro'] 
     assert t.cost == 706 
     assert t.length == 8
-    assert round(t.avg_branching,2) == round((17+8-1)/8,2)
+    assert round(t.avg_branching, 2) == round((17+8-1)/8, 2)
 
 def test_exercicio14(braga_faro):
     t = SearchTree(braga_faro, 'a*')
@@ -33,4 +33,4 @@ def test_exercicio14(braga_faro):
     assert t.search() == ['Braga', 'Porto', 'Agueda', 'Coimbra', 'Leiria', 'Santarem', 'Evora', 'Beja', 'Faro'] 
     assert t.cost == 706 
     assert t.length == 8
-    assert round(t.avg_branching,2) == round((160+84-1)/84,2)
+    assert round(t.avg_branching, 2) == round((160+84-1)/84, 2)
