@@ -59,7 +59,7 @@ class SearchProblem:
         self.goal = goal
 
     def goal_test(self, state):
-        return self.domain.satisfies(state,self.goal)
+        return self.domain.satisfies(state, self.goal)
 
 # Nos de uma arvore de pesquisa
 class SearchNode:
@@ -88,6 +88,7 @@ class SearchTree:
         self.terminals = 0
         self.non_terminals = 0
         self.avg_branching = 0
+        self.cost = None
 
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self, node):
@@ -106,6 +107,7 @@ class SearchTree:
             if self.problem.goal_test(node.state):
                 self.solution = node
                 self.length = self.solution.depth
+                self.cost = node.cost
                 return self.get_path(node)
             
             # Expansão do Node
@@ -116,7 +118,7 @@ class SearchTree:
             for a in self.problem.domain.actions(node.state):
                 newstate = self.problem.domain.result(node.state, a)
                 if newstate not in self.get_path(node):
-                    newnode = SearchNode(newstate, node, node.depth + 1, node.parent.cost + self.problem.domain.cost(node.state, a))
+                    newnode = SearchNode(newstate, node, node.depth + 1, node.cost + self.problem.domain.cost(node.state, a))
                     lnewnodes.append(newnode)
 
             if limit == None:
@@ -134,4 +136,4 @@ class SearchTree:
         elif self.strategy == 'depth':
             self.open_nodes[:0] = lnewnodes
         elif self.strategy == 'uniform':
-            pass
+            self.open_nodes = sorted(self.open_nodes + lnewnodes, key=lambda node: node.cost)
