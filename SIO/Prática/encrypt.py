@@ -25,12 +25,9 @@ def main():
     password = input("Insert the password to transform into a key: ")
     
     key = generate_key(password, algorithm_name, salt)
-    generate_file(file_name, file_destination, key, algorithm_name)
+    generate_file(file_name, file_destination, key, algorithm_name, salt)
 
-    with open('salt.txt', 'wb') as file:
-        file.write(salt)
-
-def generate_file(file_name, file_destination, key, algorithm):
+def generate_file(file_name, file_destination, key, algorithm, salt):
     iv = os.urandom(16)
     cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
     encryptor = cipher.encryptor()
@@ -49,6 +46,7 @@ def generate_file(file_name, file_destination, key, algorithm):
 
     with open(file_destination, "wb") as file:
         file.write(iv)
+        file.write(salt)
         file.write(encrypted_data)
 
     with open('algorithm.txt', 'w') as file:

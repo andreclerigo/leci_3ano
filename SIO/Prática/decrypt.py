@@ -3,7 +3,7 @@ import os
 from cryptography.hazmat.primitives import hashes, padding
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryp import generate_key
+from encrypt import generate_key
 
 
 def main():
@@ -13,10 +13,10 @@ def main():
     file_name = sys.argv[1]
 
     with open(file_name, 'rb') as file:
+        file.seek(16)
+        salt = file.read(16)
+        file.seek(32)
         data = file.read()
-
-    with open('salt.txt', 'rb') as file:
-        salt = file.read()
 
     with open('algorithm.txt', 'r') as file:
         a = file.read()
