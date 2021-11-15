@@ -12,7 +12,7 @@ def main():
 
     private_key = rsa.generate_private_key(
         public_exponent=65537,
-        key_size=2048,
+        key_size=size,
     )
 
     pem_private = private_key.private_bytes(
@@ -26,11 +26,15 @@ def main():
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
 
-    with open("private.pem", "wb") as f:
+    private_name = input("Enter the name of the private key file: ")
+    public_name = input("Enter the name of the public key file: ")
+
+    with open(private_name, "wb") as f:
         f.write(pem_private)
     
-    with open("public.pem", "wb") as f:
+    with open(public_name, "wb") as f:
         f.write(pem_public)
+
 
 if __name__ == '__main__':
     main()
