@@ -12,19 +12,25 @@ def main():
     
     file_name = sys.argv[1]
 
-    with open(file_name, 'rb') as file:
-        file.seek(16)
-        salt = file.read(16)
-        file.seek(32)
-        data = file.read()
-
     with open('algorithm.txt', 'r') as file:
         a = file.read()
+
+
+    with open(file_name, 'rb') as file:
+        if a == "ChaCha20":
+            salt = file.read(16)
+            file.seek(16)
+        else:
+            file.seek(16)
+            salt = file.read(16)
+            file.seek(32)
+
+        data = file.read()
 
     password = input("Insert the password to transform into a key: ")
     key = generate_key(password, a, salt)
 
-    decrypted_data = decrypt(key, data)
+    decrypted_data = decrypt(key, data, a)
     unpadded_data = unpadder(decrypted_data, a)
 
     with open('decifrado', 'wb') as file:
@@ -35,14 +41,18 @@ def unpadder(decrypted_data, a):
     
     if a == "AES-128":
         return padder.update(decrypted_data) + padder.finalize()
-    else:
+    elif a == "ChaCha20":
         return decrypted_data
 
-def decrypt(key, data):
+def decrypt(key, data, a):
     with open('cifrado', 'rb') as file:
         iv = file.read(16)
     
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+    if a == "AES-128":
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+    elif a == "ChaCha20":
+        cipher = Cipher(algorithms.ChaCha20(key), modes.ChaCha20Poly1305(iv))
+
     decryptor = cipher.decryptor()
 
     decrypted_data = decryptor.update(data) + decryptor.finalize()
