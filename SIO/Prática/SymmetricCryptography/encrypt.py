@@ -8,55 +8,49 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 ALGORITHMS = [ "AES-128", "ChaCha20" ]
 
 def main():
-    salt = os.urandom(16)
-
     if len(sys.argv) < 4:
-        print("Error - Insufficient number of arguments")
+        print("Usage: python3 encrypt.py <input_file> <output_file> <algorithm_name>")
         exit(1)
 
-    file_name = sys.argv[1]
-    file_destination = sys.argv[2]
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
     algorithm_name = sys.argv[3]   
 
     if algorithm_name not in ALGORITHMS:
         print("Error - Invalid algorithm specified")        
         exit(1)
+
+    salt = os.urandom(16)
+    iv = os.urandom(16)
     
     password = input("Insert the password to transform into a key: ")
-    
     key = generate_key(password, algorithm_name, salt)
-    generate_file(file_name, file_destination, key, algorithm_name, salt)
 
-def generate_file(file_name, file_destination, key, algorithm, salt):
-    iv = os.urandom(16)
+    with open(input_file, "rb") as file:
+        data = file.read()
+    
+    encrypted_data = encrypt(data, key, algorithm_name, iv)
+    with open(output_file, "wb") as file:
+        file.write(iv)
+        file.write(salt)
+        file.write(encrypted_data)
 
+def encrypt(data, key, algorithm, iv):
     if algorithm == "AES-128":
         cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
     elif algorithm == "ChaCha20":
-        cipher = Cipher(algorithms.ChaCha20(key), mode=None)
+        cipher = Cipher(algorithms.ChaCha20(key, iv), mode=None)
 
     encryptor = cipher.encryptor()
     
-    with open(file_name, "rb") as file:
-        data = file.read()
-
     if algorithm == "AES-128":
         padder = padding.PKCS7(128).padder()
         padded_data = padder.update(data) + padder.finalize()
         encrypted_data = encryptor.update(padded_data) + encryptor.finalize()
-        a = "AES-128"
     elif algorithm == "ChaCha20":
         encrypted_data = encryptor.update(data) + encryptor.finalize()
-        a = "ChaCha20"
-
-    with open(file_destination, "wb") as file:
-        if a == "AES-128":
-            file.write(iv)
-        file.write(salt)
-        file.write(encrypted_data)
-
-    with open('algorithm.txt', 'w') as file:
-        file.write(a)
+    
+    return encrypted_data
 
 def generate_key(password, algorithm, salt):
     kdf = PBKDF2HMAC(
