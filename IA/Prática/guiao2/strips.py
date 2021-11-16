@@ -22,10 +22,13 @@ class Predicate:
     def __str__(self):
         argsstr = args2string(self.args)
         return type(self).__name__ + "(" + argsstr + ")"
+    
     def __repr__(self):
         return str(self)
+    
     def __eq__(self,predicate):   # allows for comparisons with "==", etc.
         return str(self)==str(predicate)
+    
     def substitute(self,assign): # Substitute the arguments in a predicate
         la = self.args          # by constants according to a given 
         if len(la)==0:         # assignment (i.e. a dictionary)
@@ -34,7 +37,9 @@ class Predicate:
             return type(self)(assign[la[0]])
         # add other cases if needed
         return type(self)(assign[la[0]],assign[la[1]])
-
+    
+    def __hash__(self):
+        return hash(str(self))
 
 # STRIPS operators
 # -- operators for a specific domain will be subclasses
@@ -46,10 +51,12 @@ class Operator:
         self.pc  = pc
         self.neg = neg
         self.pos = pos
+    
     def __str__(self):
         return type(self).__name__ + '([' + args2string(self.args) + "]," +  \
                str(self.pc) + ',' + str(self.neg) + ',' +  \
                str(self.pos) + ')'
+    
     def __repr__(self):
         argsstr = args2string(self.args)
         return type(self).__name__ + "(" + argsstr + ")"
@@ -93,7 +100,22 @@ class STRIPS(SearchDomain):
     # Result of a given "action" in a given "state"
     # ( returns None, if the action is not applicable in the state)
     def result(self, state, action):
-        pass
+        nstate = []
+        # verify if the action is possible in the given state
+        for condition in action.pc:
+            if condition not in state:
+                return None
+        
+        # append conditions from the old state that are not in action neg
+        for condition in state:
+            if condition not in action.neg:
+                nstate.append(condition)
+
+        # update the state with the effects of the action
+        for result in action.pos:
+            nstate.append(result)
+        
+        return set(nstate)
 
     def cost(self, state, action):
         return 1
@@ -103,7 +125,10 @@ class STRIPS(SearchDomain):
 
     # Checks if a given "goal" is satisfied in a given "state"
     def satisfies(self, state, goal):
-        pass
+        for condition in goal:
+            if condition not in state:
+                return False
+        return True
 
 
 

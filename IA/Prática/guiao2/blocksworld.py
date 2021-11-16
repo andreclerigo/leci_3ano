@@ -105,9 +105,9 @@ bwdomain = STRIPS()
 
 print('Actions:',bwdomain.actions(initial_state))
 
-"""
-# uncomment to test
 
+# uncomment to test
+'''
 inittime = time.time()
 
 p = SearchProblem(bwdomain,initial_state,goal_state)
@@ -117,6 +117,4 @@ t.search()
 print(t.plan)
 print('time=',time.time()-inittime)
 print(len(t.open_nodes),' nodes')
-"""
-
-
+'''
