@@ -1,15 +1,14 @@
 import sys
-import os
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
-from encrypt import encrypt
+from decrypt import decrypt
 
 
 def main():
     if len(sys.argv) != 4:
-        print("Usage: python3 file_encrypt.py <input_file> <output_file> <key_file>")
+        print("Usage: python3 decrypt_hybrid.py <input_file> <output_file> <key_file>")
         sys.exit(1)
 
     input_file = sys.argv[1]
@@ -17,19 +16,20 @@ def main():
     key_file = sys.argv[3]
 
     with open (key_file, "rb") as key_file:
-        public_key = serialization.load_pem_public_key(
+        private_key = serialization.load_pem_private_key(
             key_file.read(),
+            password=None,
         )
 
+    key_size = (private_key.key_size + 7)//8
+    # print(key_size)
+
     with open (input_file, "rb") as input_file:
+        key = input_file.read(key_size)
+        iv = input_file.read(16)
         data = input_file.read()
 
-    salt = os.urandom(16)
-    iv = os.urandom(16)
-    password = input("Insert the password to transform into a key: ")
-    key = generate_key(password, salt)
-    
-    key_encrypted = public_key.encrypt(
+    decrypted_key = private_key.decrypt(
                         key,
                         padding.OAEP(
                             mgf=padding.MGF1(algorithm=hashes.SHA256()),
@@ -38,24 +38,10 @@ def main():
                         )
                     )
 
-    encrypted_data = encrypt(data, key_encrypted[:16], "AES-128", iv)
+    decrypted_data = decrypt(data, decrypted_key, "AES-128", iv)
 
-    with open (output_file, "wb") as output_file:
-        output_file.write(key_encrypted)
-        output_file.write(iv)
-        output_file.write(encrypted_data)
-
-def generate_key(password, salt):
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        iterations=100000
-    )
-
-    key = kdf.derive(password.encode())
-
-    return key[:16]
+    with open(output_file, "wb") as output_file:
+        output_file.write(decrypted_data)
 
 if __name__ == '__main__':
     main()

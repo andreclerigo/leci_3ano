@@ -9,7 +9,7 @@ from encrypt import encrypt
 
 def main():
     if len(sys.argv) != 4:
-        print("Usage: python3 file_encrypt.py <input_file> <output_file> <key_file>")
+        print("Usage: python3 encrypt_hybrid.py <input_file> <output_file> <key_file>")
         sys.exit(1)
 
     input_file = sys.argv[1]
@@ -29,6 +29,8 @@ def main():
     password = input("Insert the password to transform into a key: ")
     key = generate_key(password, salt)
     
+    encrypted_data = encrypt(data, key, "AES-128", iv)
+
     key_encrypted = public_key.encrypt(
                         key,
                         padding.OAEP(
@@ -38,10 +40,8 @@ def main():
                         )
                     )
 
-    encrypted_data = encrypt(data, key_encrypted[:16], "AES-128", iv)
-
     with open (output_file, "wb") as output_file:
-        output_file.write(key_encrypted[:16])
+        output_file.write(key_encrypted)
         output_file.write(iv)
         output_file.write(encrypted_data)
 
