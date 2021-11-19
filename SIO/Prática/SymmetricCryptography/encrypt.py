@@ -3,18 +3,20 @@ import os
 from cryptography.hazmat.primitives import hashes, padding
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives.ciphers.modes import CBC, ECB, OFB, CFB
 
 
 ALGORITHMS = [ "AES-128", "ChaCha20" ]
 
 def main():
     if len(sys.argv) < 4:
-        print("Usage: python3 encrypt.py <input_file> <output_file> <algorithm_name>")
+        print("Usage: python3 encrypt.py <input_file> <output_file> <algorithm_name> (mode)")
         exit(1)
 
     input_file = sys.argv[1]
     output_file = sys.argv[2]
     algorithm_name = sys.argv[3]   
+    mode = sys.argv[4] if len(sys.argv) > 4 else "CBC"
 
     if algorithm_name not in ALGORITHMS:
         print("Error - Invalid algorithm specified")        
@@ -29,15 +31,22 @@ def main():
     with open(input_file, "rb") as file:
         data = file.read()
     
-    encrypted_data = encrypt(data, key, algorithm_name, iv)
+    encrypted_data = encrypt(data, key, algorithm_name, iv, mode)
     with open(output_file, "wb") as file:
         file.write(iv)
         file.write(salt)
         file.write(encrypted_data)
 
-def encrypt(data, key, algorithm, iv):
+def encrypt(data, key, algorithm, iv, mode):
     if algorithm == "AES-128":
-        cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+        if mode == "CBC":
+            cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+        if mode == "ECB":
+            cipher = Cipher(algorithms.AES(key), modes.ECB())
+        if mode == "OFB":
+            cipher = Cipher(algorithms.AES(key), modes.OFB(iv))
+        if mode == "CFB":
+            cipher = Cipher(algorithms.AES(key), modes.CFB(iv))
     elif algorithm == "ChaCha20":
         cipher = Cipher(algorithms.ChaCha20(key, iv), mode=None)
 
