@@ -126,5 +126,49 @@ class SemanticNetwork:
     def list_local_associations_by_user(self, entity):
         return list(set([ (d.relation.name, d.user) for d in self.declarations if d.relation.entity1 == entity and isinstance(d.relation, Association) ]))
     
-    def predecessor(self, entinty1, entity2):
-        pass
+    def predecessor(self, prd, dsc):
+        ldeclartions = self.query_local(e1=dsc)
+        lparents = [ d.relation.entity2 for d in ldeclartions if not isinstance(d.relation, Association) ]
+
+        if prd in lparents:
+            return True
+        
+        for p in lparents:
+            if prd == p or self.predecessor(prd, p):
+                return True
+
+        return False
+
+    def predecessor_path(self, prd, dsc):
+        ldeclartions = self.query_local(e1=dsc)
+        lparents = [ d.relation.entity2 for d in ldeclartions if not isinstance(d.relation, Association) ]
+
+        if prd in lparents:
+            return [prd, dsc]
+        
+        for p in lparents:
+            path = self.predecessor_path(prd, p)
+            if  path != None:
+                return path + [dsc]
+
+        return None
+
+    def query(self, entity, association_name=None):
+        ldeclartions = self.query_local(e1=entity)
+        lparents = [ d.relation.entity2 for d in ldeclartions if not isinstance(d.relation, Association) ]
+
+        lassoc = [ d for d in ldeclartions if isinstance(d.relation, Association) 
+                                            and (d.relation.name == association_name or association_name == None) ]
+        
+        for p in lparents:
+            lassoc += self.query(p, association_name)
+        return lassoc
+
+    def query2(self, entity, relation_name=None):
+        query_result = self.query(entity)
+
+        ldeclartions = self.query_local(e1=entity)
+        lassoc = [ d for d in ldeclartions if not isinstance(d.relation, Association) 
+                                            and (d.relation.name == relation_name or relation_name == None) ]
+
+        return query_result + lassoc
