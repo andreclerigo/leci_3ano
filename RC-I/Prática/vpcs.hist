@@ -1,0 +1,12 @@
+?
+disconnect
+quit
+ip 10.0.0.1/24
+show
+show ip
+save
+ip 10.0.0.1/24 10.0.0.254
+ping 10.0.2.4 -T 1
+ping 10.0.2.4 -T 2
+trace 10.0.2.4
+quit

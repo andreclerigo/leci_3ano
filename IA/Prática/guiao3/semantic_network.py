@@ -172,3 +172,6 @@ class SemanticNetwork:
                                             and (d.relation.name == relation_name or relation_name == None) ]
 
         return query_result + lassoc
+
+    def query_cancel(self, entity, association_name):
+        
