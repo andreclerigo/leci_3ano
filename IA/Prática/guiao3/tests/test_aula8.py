@@ -47,7 +47,8 @@ def sn_net2():
 
     z.insert(Declaration('damasio', Association('filosofo','gosta','filosofia')))
     z.insert(Declaration('damasio', Member('socrates','filosofo')))
-
+    
+    
     z.insert(Declaration('descartes', AssocNum('socrates','pulsacao',51)))
     z.insert(Declaration('darwin', AssocNum('socrates','pulsacao',61)))
     z.insert(Declaration('darwin', AssocNum('platao','pulsacao',65)))
@@ -65,7 +66,7 @@ def sn_net2():
     z.insert(Declaration('damasio', AssocOne('socrates','pai','sofronisco')))
     z.insert(Declaration('darwin', AssocOne('socrates','pai','pericles')))
     z.insert(Declaration('descartes', AssocOne('socrates','pai','sofronisco')))
-
+    
     return z
 
 

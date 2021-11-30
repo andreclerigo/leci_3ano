@@ -29,6 +29,13 @@ class Relation:
     def __repr__(self):
         return str(self)
 
+class AssocOne(Relation):
+    def __init__(self,e1,rel,e2):
+        Relation.__init__(self,e1,rel,e2)
+
+class AssocNum(Relation):
+    def __init__(self,e1,rel,e2):
+        Relation.__init__(self,e1,rel,e2)
 
 # Subclasse Association
 class Association(Relation):
@@ -199,4 +206,23 @@ class SemanticNetwork:
             lassoc += self.query_down(c, association_name, child=True)
 
         return lassoc
+
+    def query_induce(self, entity, association_name):
+        lassoc = self.query_down(entity, association_name)
+
+        counter_dict = {}
+
+        for assoc in lassoc:
+            if assoc.relation.entity2 not in counter_dict:
+                counter_dict[assoc.relation.entity2] = 1
+            else:
+                counter_dict[assoc.relation.entity2] += 1
         
+        return max(counter_dict, key=counter_dict.get)
+
+
+    def query_local_assoc(self, entity, association_name):
+        ldeclartions = self.query_local(e1=entity)
+        print(ldeclartions)
+        # for d in ldeclartions:
+        #     print(d)
