@@ -1,10 +1,10 @@
 from constraintsearch import *
 
-region = ['A', 'B', 'C', 'D', 'E']
+region = ['A', 'B', 'C', 'D', 'E', 'F']
 colors = ['red', 'blue', 'green', 'yellow', 'white']
 
 edges = [('E', r) for r in region if r != 'E']
-edges += [('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'A')]
+edges += [('A', 'B'), ('B', 'C'), ('C', 'F'), ('F', 'D'), ('D', 'A')]
 edges += [(r1, r2) for (r2, r1) in edges]
 
 domains = {r: colors for r in region}
