@@ -1,7 +1,4 @@
-
-
 class BayesNet:
-
     def __init__(self, ldep=None):  # Why not ldep={}? See footnote 1.
         if not ldep:
             ldep = {}
@@ -28,6 +25,28 @@ class BayesNet:
                     prob*=(p if val else 1-p)
         return prob
 
+    # def individualProb(self, var, val):
+    #     dict_value = self.dependencies[var]
+    #     prob = 0.0
+
+    #     #print(f'aqui {dict_value}')
+    #     for s in dict_value:
+    #         if s == frozenset():
+    #             return (dict_value[s] if val else 1 - dict_value[s])
+    #         prob += dict_value[s]
+
+    #     return (prob if val else 1 - prob)
+
+    def ancestors(self, var):
+        pass
+
+    def conjunctions(self, lvars=None):
+        if lvars == None:
+            lvars = list(self.dependencies.keys())
+
+    def individualProb(self, var, val):
+        lconj = self.conjunctions(self.ancestors)
+        return sum (self.jointProb(c) for c in lconj)
 
 # Footnote 1:
 # Default arguments are evaluated on function definition,
