@@ -35,9 +35,9 @@ python -m pygame.examples.aliens
 - OSX Big Sur 11.6
 
 # Authors
-André Clérigo, 98485
-Pedro Rocha, 98256
+[André Clérigo](https://github.com/andreclerigo), 98485  
+[Pedro Rocha](https://github.com/PedroRocha9), 98256
 
 # Grades
-1st delivery: 15,4
+1st delivery: 15,4  
 2nd delibery: 12,2
