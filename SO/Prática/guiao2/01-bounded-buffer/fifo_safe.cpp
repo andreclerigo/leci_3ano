@@ -22,23 +22,23 @@
 #include "thread.h"
 
 /** \brief internal storage size of <em>FIFO memory</em> */
-#define  FIFOSZ         5
+#define FIFOSZ 5
 
 /*
  *  \brief Data structure.
  */
 typedef struct ITEM
 {
-    unsigned int id;     ///< id of the producer
-    unsigned int value;  ///< value stored
+    unsigned int id;    ///< id of the producer
+    unsigned int value; ///< value stored
 } ITEM;
 
 typedef struct FIFO
-{ 
+{
     unsigned int ii;   ///< point of insertion
     unsigned int ri;   ///< point of retrieval
     unsigned int cnt;  ///< number of items stored
-    ITEM slot[FIFOSZ];  ///< storage memory
+    ITEM slot[FIFOSZ]; ///< storage memory
 } FIFO;
 
 /** \brief internal storage region of FIFO type */
@@ -98,7 +98,7 @@ void fifoIn(unsigned int id, unsigned int value)
     /* wait while fifo is full */
     while (fifoFull())
     {
-        cond_wait(&fifoNotFull, &accessCR); 
+        cond_wait(&fifoNotFull, &accessCR);
     }
 
     /* Insert pair */
@@ -117,14 +117,14 @@ void fifoIn(unsigned int id, unsigned int value)
 
 /* Retrieval of a pair <id, value> from the FIFO */
 
-void fifoOut (unsigned int * idp, unsigned int * valuep)
+void fifoOut(unsigned int *idp, unsigned int *valuep)
 {
     mutex_lock(&accessCR);
 
     /* wait while fifo is empty */
     while (fifoEmpty())
     {
-        cond_wait(&fifoNotEmpty, &accessCR); 
+        cond_wait(&fifoNotEmpty, &accessCR);
     }
 
     /* Retrieve pair */
@@ -141,4 +141,3 @@ void fifoOut (unsigned int * idp, unsigned int * valuep)
 }
 
 /* ************************************************* */
-
