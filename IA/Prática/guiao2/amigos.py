@@ -6,6 +6,6 @@ objetos = ['Bicicleta', 'Chapeu']
 #edges = 
 domains = {a: objetos for a in amigos}
 
-cs = ConstraintSearch(None, None)
+cs = ConstraintSearch(domains, None)
 
 print(cs.search())

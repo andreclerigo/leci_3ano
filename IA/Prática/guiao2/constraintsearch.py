@@ -48,9 +48,24 @@ class ConstraintSearch:
                 for val in domains[var]:
                     newdomains = dict(domains)
                     newdomains[var] = [val]
+
+                    ledges = [ (v, z) for (v, z) in self.constraints if z == var ]
+                    self.constraint_propagation(newdomains, ledges)
+
                     solution = self.search(newdomains)
                     if solution != None:
-                        return solution
+                        return solution  
         return None
 
+    def constraint_propagation(self, domains, ledges):
+        while ledges != []:
+            (xj, xi) = ledges.pop()
+            numvals = len(domains[xj])
+            c = self.constraints[xj, xi]
 
+            domains[xj] = [ val_j for val_j in domains[xj] 
+                            if any(c(xj, val_j, xi, val_i) for val_i in domains[xi]) ]
+
+            if len(domains[xj]) < numvals:
+                ledges += [ (xk, z) for (xk, z) in self.constraints if z == xj ]
+        return domains
