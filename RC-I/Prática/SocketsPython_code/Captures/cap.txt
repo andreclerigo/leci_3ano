@@ -1,0 +1,3 @@
+- Pacotes enviados/recebidos (UDP, TCP)
+- Cabeçalhos ,IP, TCP, UDP e dados
+	- Portas
