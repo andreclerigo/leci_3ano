@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 SO/Prática/guiao2/libsoconcur/doc/* linguist-vendored
+SO/Prática/libsoconcur/doc/* linguist-vendored
