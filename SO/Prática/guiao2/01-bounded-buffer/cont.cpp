@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 
     thread_create(&mythread, NULL, &thread_main, NULL);
     thread_join(mythread, NULL);
+    printf("Job done\n");
 
     return 0;
 }
