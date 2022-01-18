@@ -19,10 +19,10 @@
 
 typedef struct FIFO
 {
-    unsigned int ii;   ///< point of insertion
-    unsigned int ri;   ///< point of retrieval
-    unsigned int cnt;  ///< number of items stored
-    int slot[FIFOSZ]; ///< storage memory
+    unsigned int ii;    ///< point of insertion
+    unsigned int ri;    ///< point of retrieval
+    unsigned int cnt;   ///< number of items stored
+    int slot[FIFOSZ];   ///< storage memory
 } FIFO;
 
 #ifndef __SO_IPC_PRODUCER_CONSUMER_FIFO_
@@ -39,7 +39,7 @@ FIFO* fifoInit(void);
  * \param id id of the producer
  * \param value value to be stored
  */
-void fifoIn (unsigned int id, unsigned int value);
+void fifoIn (unsigned int id, FIFO* fifo);
 
 /**
  *  \brief Retrieval of a value from the FIFO.
@@ -47,6 +47,6 @@ void fifoIn (unsigned int id, unsigned int value);
  * \param idp pointer to recipient where to store the producer id
  * \param valuep pointer to recipient where to store the value 
  */
-void fifoOut (unsigned int * idp, unsigned int  *valuep);
+void fifoOut (unsigned int * idp, FIFO* fifo);
 
 #endif /* __SO_IPC_PRODUCER_CONSUMER_FIFO_ */

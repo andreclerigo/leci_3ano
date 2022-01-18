@@ -12,3 +12,6 @@ typedef struct {
     ServiceRequest req;
     ServiceResponse res;
 } BUFFER;
+
+void processService();
+void callService(ServiceRequest* req, ServiceResponse* res);

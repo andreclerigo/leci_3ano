@@ -51,14 +51,14 @@ FIFO* fifoInit(void)
     {
         fifo->slot[i] = 99999999;
     }
-    fifo.ii = fifo.ri = 0;
-    fifo.cnt = 0;
+    fifo->ii = fifo->ri = 0;
+    fifo->cnt = 0;
 
     cond_broadcast(&fifoNotFull);
 
     mutex_unlock(&accessCR);
 
-    return &fifo;
+    return fifo;
 }
 
 /* ************************************************* */
@@ -79,8 +79,8 @@ static bool fifoEmpty(FIFO* fifo)
 
 /* ************************************************* */
 
-/* Insertion of a pait <id, value> into the FIFO  */
-void fifoIn(unsigned int id, unsigned int value, FIFO* fifo)
+/* Insertion of an element into the FIFO  */
+void fifoIn(unsigned int id, FIFO* fifo)
 {
     mutex_lock(&accessCR);
 
@@ -90,10 +90,8 @@ void fifoIn(unsigned int id, unsigned int value, FIFO* fifo)
         cond_wait(&fifoNotFull, &accessCR);
     }
 
-    /* Insert pair */
-    fifo->slot[fifo->ii].value = value;
-    gaussianDelay(1, 0.5);
-    fifo->slot[fifo->ii].id = id;
+    /* Insert buffer id */
+    fifo->slot[fifo->ii] = id;
     fifo->ii = (fifo->ii + 1) % FIFOSZ;
     fifo->cnt++;
 
@@ -104,9 +102,9 @@ void fifoIn(unsigned int id, unsigned int value, FIFO* fifo)
 
 /* ************************************************* */
 
-/* Retrieval of a pair <id, value> from the FIFO */
+/* Retrieval of the first element avaiable from the FIFO */
 
-void fifoOut(unsigned int *idp, unsigned int *valuep, FIFO* fifo)
+void fifoOut(unsigned int *idp, FIFO* fifo)
 {
     mutex_lock(&accessCR);
 
@@ -116,11 +114,9 @@ void fifoOut(unsigned int *idp, unsigned int *valuep, FIFO* fifo)
         cond_wait(&fifoNotEmpty, &accessCR);
     }
 
-    /* Retrieve pair */
-    *valuep = fifo->slot[fifo->ri].value;
-    fifo->slot[fifo->ri].value = 99999999;
-    *idp = fifo->slot[fifo->ri].id;
-    fifo->slot[fifo->ri].id = 99999999;
+    /* Retrieve id */
+    *idp = fifo->slot[fifo->ri];
+    fifo->slot[fifo->ri] = 99999999;
     fifo->ri = (fifo->ri + 1) % FIFOSZ;
     fifo->cnt--;
 
