@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <libgen.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <pthread.h>
 #include <cctype>
 #include <string>
- 
 #include "thread.h"
 
 #define FIFOSZ  10
@@ -58,32 +56,35 @@ static SLOT slots[FIFOSZ];
 static FIFO frees;
 static FIFO pending;
 
-void freesInit(void){
+// Initialize the frees FIFO
+void freesInit(void) {
     mutex_lock(&frees.accessCR);
     frees.ii = frees.ri = 0;
     frees.cnt = FIFOSZ;
+
     uint32_t i;
-    for ( i = 0; i < FIFOSZ; i++)
-    {
+    for (i = 0; i < FIFOSZ; i++) {
         frees.ids[i] = i;
     }
     cond_signal(&frees.notEmpty);
     mutex_unlock(&frees.accessCR);
 }
 
-void pendingInit(void){
+// Initialize the pendings FIFO
+void pendingInit(void) {
     mutex_lock(&pending.accessCR);
+    // The buffer is empty
     pending.cnt = pending.ii = pending.ri = 0;
     cond_signal(&pending.notFull);
     mutex_unlock(&pending.accessCR);
 }
 
-void insert(FIFO *fifo, uint32_t id){
+// Insert a new value to the FIFO
+void insert(FIFO *fifo, uint32_t id) {
     mutex_lock(&fifo->accessCR);
 
-    while (fifo->cnt == FIFOSZ)
-    {
-        cond_wait(&fifo->notFull,&fifo->accessCR);
+    while (fifo->cnt == FIFOSZ) {
+        cond_wait(&fifo->notFull, &fifo->accessCR);
     }
 
     fifo->ids[fifo->ii] = id;
@@ -93,11 +94,11 @@ void insert(FIFO *fifo, uint32_t id){
     mutex_unlock(&fifo->accessCR);
 }
 
-uint32_t retrive(FIFO *fifo){
+// Retrieve a value from the FIFO
+uint32_t retrive(FIFO *fifo) {
     mutex_lock(&fifo->accessCR);
 
-    while (fifo->cnt == 0)
-    {
+    while (fifo->cnt == 0) {
         cond_wait(&fifo->notEmpty, &fifo->accessCR);
     }
     
@@ -110,78 +111,92 @@ uint32_t retrive(FIFO *fifo){
     return id;
 }
 
-void signalResponseIsAvailable(uint32_t id){
+// Signal the Response to the client callService
+void signalResponseIsAvailable(uint32_t id) {
     slots[id].hasResponse = true;
     cond_signal(&slots[id].available);
 }
 
-void waitForResponse(uint32_t id){
-    while (!slots[id].hasResponse)
-    {
+// Wait for a response from the server
+void waitForResponse(uint32_t id) {
+    while (!slots[id].hasResponse) {
         cond_wait(&slots[id].available, &slots[id].accessCR);
     }
     slots[id].hasResponse = false;
 }
 
-void callService(ServiceRequest &req, ServiceResponse &res){
-    uint32_t id = retrive(&frees);
+void callService(ServiceRequest &req, ServiceResponse &res) {
+    uint32_t id = retrive(&frees);                          /* take a buffer out of fifo of free buffers */
     mutex_lock(&slots[id].accessCR);
+    
+    /* put request data on buffer */
     slots[id].req = req;
     slots[id].res = res;
-    insert(&pending, id);
+    insert(&pending, id);                                   /* add buffer to fifo of pending requests */
+    
     printf("Client %u call service\n", req.clientid);
-    waitForResponse(id);
-    res = slots[id].res;
+    
+    waitForResponse(id);                                    /* wait (blocked) until a response is available */
+    res = slots[id].res;                                    /* take response out of buffer */
+    
     printf("Size: %u,  Alpha: %u,  Numbers: %u,  ServerId: %u\n",res.len,res.alpha,res.numbers,res.serverid);
+    
     mutex_unlock(&slots[id].accessCR);
-    insert(&frees, id);
+    insert(&frees, id);                                     /* buffer is free, so add it to fifo of free buffers */
 }
 
-void processService(uint32_t sid){
-    uint32_t id = retrive(&pending);
+void processService(uint32_t sid) {
+    uint32_t id = retrive(&pending);                        /* take a buffer out of fifo of pending requests */
     mutex_lock(&slots[id].accessCR);
-    slots[id].res.serverid = sid;
-
+    slots[id].res.serverid = sid;                           /* take the request */
     char *i;
-    for ( i = slots[id].req.frase; *i != '\0'; i++)
-    {
+
+    // Check every string character and count the number of alphabetic and numeric characters
+    /* produce a response */
+    for (i = slots[id].req.frase; *i != '\0'; i++) {
         slots[id].res.len++;
         if(isdigit(*i)) slots[id].res.numbers++;
         if(isalpha(*i)) slots[id].res.alpha++; 
     }
-    signalResponseIsAvailable(id);
+    /* put response data on buffer */
+
+    signalResponseIsAvailable(id);                          /* so client is waked up */
     mutex_unlock(&slots[id].accessCR);
 }
 
-void *client(void *arg){
+// Create a Client Thread
+void *client(void *arg) {
     ARG* x = (ARG*)arg;
-    printf("Client %d created\n",x->id);
-    int iter = 10;
-    int i;
-    for (i = 0; i < iter; i++)
-    {
-        ServiceResponse res; //= new ServiceResponse();
-        ServiceRequest req; //= new ServiceRequest();
+    printf("Client %d created\n",x->id); fflush(stdout);
+    
+    // Make (iter timrs) a Service Request with a static string
+    for (int i = 0; i < x->iter; i++) {
+        ServiceResponse res;            //= new ServiceResponse();
+        ServiceRequest req;             //= new ServiceRequest();
         req.clientid = x->id;
         req.frase = (char *)"Teste String 123";
+
+        // Call the Service and wait for the response
         callService(req, res);
     }
     return NULL;
 }
 
-void *server(void *arg){
+// Create a Server Thread
+void *server(void *arg) {
     int x = *((int*)arg);
-    printf("Server %d created\n", x);
-    while (1)
-    {
+    printf("Server %d created\n", x); fflush(stdout);
+    
+    while (1) {
         processService(x);   
     }
 }
 
-int main(void){
+int main(void) {
     int nservers = 2;
-    int nclients = 2;
+    int nclients = 3;
 
+    // Initialize the FIFOs
     freesInit();
     pendingInit();
 
@@ -190,30 +205,25 @@ int main(void){
     pthread_t clients[nclients];
     ARG carg[nclients];
 
-    int i;
-    for ( i = 0; i < nservers; i++)
-    {   
+    // Create the servers threads
+    for (int i = 0; i < nservers; i++) {   
         sarg[i] = i;
-        thread_create(&servers[i],NULL,server,&sarg[i]);
+        thread_create(&servers[i], NULL, server, &sarg[i]);
     }
 
-    int j;
-    for ( j = 0; j < nclients; j++)
-    {
+    // Create the clients threads
+    for (int j = 0; j < nclients; j++){
         carg[j].id = j;
-        thread_create(&clients[j],NULL,client,&carg[j]);
+        carg[j].iter = 1;
+        thread_create(&clients[j], NULL, client, &carg[j]);
     }
 
-    int k;
-    for ( k = 0; k < nclients; k++)
-    {
+    for (int k = 0; k < nclients; k++) {
         thread_join(clients[k], NULL);
         printf("Client %d terminated\n",k);
     }
 
-    int n;
-    for ( n = 0; n < nservers; n++)
-    {
+    for (int n = 0; n < nservers; n++) {
         thread_cancel(servers[n]);
         printf("Server %d terminated\n", n);
     }
