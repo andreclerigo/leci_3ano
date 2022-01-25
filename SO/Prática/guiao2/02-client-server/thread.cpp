@@ -160,12 +160,6 @@ int cond_timedwait(pthread_cond_t* pcvar, pthread_mutex_t* pmtx, long relative_t
 
    int res = 1;
 
-//   struct timespec // from time.h
-//   {
-//      __time_t tv_sec;    /* Seconds.  */
-//      __syscall_slong_t tv_nsec;   /* Nanoseconds.  */
-//   };
-
    struct timeval now;
    int status = gettimeofday(&now, NULL);
    check (status == 0, ""); // should never fail!

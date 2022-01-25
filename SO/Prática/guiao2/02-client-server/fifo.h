@@ -10,20 +10,6 @@
  *
  * \author (2016) Artur Pereira <artur at ua.pt>
  */
-/** \brief internal storage size of <em>FIFO memory</em> */
-#define FIFOSZ 5
-
-/*
- *  \brief Data structure.
- */
-
-typedef struct FIFO
-{
-    unsigned int ii;    ///< point of insertion
-    unsigned int ri;    ///< point of retrieval
-    unsigned int cnt;   ///< number of items stored
-    int slot[FIFOSZ];   ///< storage memory
-} FIFO;
 
 #ifndef __SO_IPC_PRODUCER_CONSUMER_FIFO_
 #define __SO_IPC_PRODUCER_CONSUMER_FIFO_
@@ -31,7 +17,7 @@ typedef struct FIFO
 /**
  * \brief Init the fifo 
  */
-FIFO* fifoInit(void);
+void fifoInit(void);
 
 /**
  *  \brief Insertion of a value into the FIFO.
@@ -39,7 +25,7 @@ FIFO* fifoInit(void);
  * \param id id of the producer
  * \param value value to be stored
  */
-void fifoIn (unsigned int id, FIFO* fifo);
+void fifoIn (unsigned int id, unsigned int value);
 
 /**
  *  \brief Retrieval of a value from the FIFO.
@@ -47,6 +33,6 @@ void fifoIn (unsigned int id, FIFO* fifo);
  * \param idp pointer to recipient where to store the producer id
  * \param valuep pointer to recipient where to store the value 
  */
-void fifoOut (unsigned int * idp, FIFO* fifo);
+void fifoOut (unsigned int * idp, unsigned int  *valuep);
 
 #endif /* __SO_IPC_PRODUCER_CONSUMER_FIFO_ */
