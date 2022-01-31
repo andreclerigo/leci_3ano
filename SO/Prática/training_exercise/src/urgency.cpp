@@ -100,14 +100,10 @@ void* nurse_life(void* arg) {
       printf("\e[34;01mNurse: get next patient\e[0m\n");
       u_int32_t patient = retrieve_pfifo(&hd->triage_queue);
 
-      //mutex_lock(&patients_mutex[patient]);
-
       printf("\e[34;01mNurse: evaluate patient %u priority\e[0m\n", patient);
       int priority = random_manchester_triage_priority();
       printf("\e[34;01mNurse: add patient %u with priority %u to doctor queue\e[0m\n", patient, priority);
       insert_pfifo(&hd->doctor_queue, patient, priority);
-
-      //mutex_unlock(&patients_mutex[patient]);
    }
 
    return NULL;
