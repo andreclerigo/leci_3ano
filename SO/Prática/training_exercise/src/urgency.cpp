@@ -45,12 +45,12 @@ typedef struct
 
 typedef struct
 {
-    int num_patients;
-    int num_doctors;
-    int num_nurses;
-    Patient all_patients[MAX_PATIENTS];
-    PriorityFIFO triage_queue;
-    PriorityFIFO doctor_queue;
+   int num_patients;
+   int num_doctors;
+   int num_nurses;
+   Patient all_patients[MAX_PATIENTS];
+   PriorityFIFO triage_queue;
+   PriorityFIFO doctor_queue;
 } HospitalData;
 
 HospitalData * hd = NULL;
@@ -102,7 +102,7 @@ void* nurse_life(void* arg) {
       printf("\e[34;01mNurse: get next patient\e[0m\n");
       u_int32_t patient = retrieve_pfifo(&hd->triage_queue);
       check_valid_patient(patient);
-      
+
       printf("\e[34;01mNurse: evaluate patient %u priority\e[0m\n", patient);
       int priority = random_manchester_triage_priority();
       printf("\e[34;01mNurse: add patient %u with priority %u to doctor queue\e[0m\n", patient, priority);
@@ -241,6 +241,21 @@ int main(int argc, char *argv[])
    for (uint32_t i = 0; i < npatients; i++) {
       thread_join(patients_thrs[i], NULL);
    }
+
+   /* Terminate the process */
+   for (uint32_t i = 0; i < ndoctors; i++) {
+      thread_detach(doctors_thrs[i]);
+   }
+
+   for (uint32_t i = 0; i < nnurses; i++) {
+      thread_detach(nurses_thrs[i]);
+   }
+   
+   for (uint32_t i = 0; i < npatients; i++) {
+      cond_destroy(&patients_ready_cond[i]);
+      mutex_destroy(&patients_mutex[i]);
+   }
+   free(hd);
 
    return EXIT_SUCCESS;
 }
