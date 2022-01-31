@@ -123,8 +123,8 @@ uint32_t retrieve_pfifo(PriorityFIFO* pfifo)
 /* changes may be required to this function */
 void print_pfifo(PriorityFIFO* pfifo)
 {
-   mutex_lock(&pfifo->accessCR);
    require (pfifo != NULL, "NULL pointer to FIFO");   // a false value indicates a program error
+   mutex_lock(&pfifo->accessCR);
 
    /* wait while fifo is empty */
    while (empty_pfifo(pfifo)) 

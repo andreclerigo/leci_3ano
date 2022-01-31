@@ -86,8 +86,10 @@ void init_simulation(uint32_t np, uint32_t nd, uint32_t nn)
    patients_mutex = new pthread_mutex_t[np];
 
    for (uint32_t i = 0; i < np; i++) {
-      patients_ready_cond[i] = PTHREAD_COND_INITIALIZER;
-      patients_mutex[i] = PTHREAD_MUTEX_INITIALIZER;
+      cond_init(&patients_ready_cond[i], NULL);
+      mutex_init(&patients_mutex[i], NULL);
+      // patients_ready_cond[i] = PTHREAD_COND_INITIALIZER;
+      // patients_mutex[i] = PTHREAD_MUTEX_INITIALIZER;
    }
 
    init_pfifo(&hd->triage_queue);
@@ -99,7 +101,8 @@ void* nurse_life(void* arg) {
    while(1) {
       printf("\e[34;01mNurse: get next patient\e[0m\n");
       u_int32_t patient = retrieve_pfifo(&hd->triage_queue);
-
+      check_valid_patient(patient);
+      
       printf("\e[34;01mNurse: evaluate patient %u priority\e[0m\n", patient);
       int priority = random_manchester_triage_priority();
       printf("\e[34;01mNurse: add patient %u with priority %u to doctor queue\e[0m\n", patient, priority);
