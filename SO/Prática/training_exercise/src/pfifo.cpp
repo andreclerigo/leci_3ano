@@ -4,22 +4,22 @@
 #include "thread.h"
 //#include "process.h"
 
-
 /* changes may be required to this function */
 void init_pfifo(PriorityFIFO* pfifo)
 {
-   mutex_init(&pfifo->accessCR, NULL);
-   cond_init(&pfifo->fifoNotFull, NULL);
-   cond_init(&pfifo->fifoNotEmpty, NULL);
-   
-   mutex_lock(&pfifo->accessCR);
+   // Initialize mutex and condition variables
+   mutex_init(&pfifo->access, NULL);
+   cond_init(&pfifo->not_empty, NULL);
+   cond_init(&pfifo->not_full, NULL);
+
+   mutex_lock(&pfifo->access);                        // Get exclusive access to the FIFO
    require (pfifo != NULL, "NULL pointer to FIFO");   // a false value indicates a program error
 
    memset(pfifo->array, 0, sizeof(pfifo->array));
    pfifo->inp = pfifo->out = pfifo->cnt = 0;
 
-   cond_broadcast(&pfifo->fifoNotFull);
-   mutex_unlock(&pfifo->accessCR);
+   cond_broadcast(&pfifo->not_full);                  // Broadcast to wake up all threads waiting for the FIFO to be full
+   mutex_unlock(&pfifo->access);                      // Release exclusive access to the FIFO
 }
 
 /* --------------------------------------- */
@@ -45,19 +45,19 @@ int full_pfifo(PriorityFIFO* pfifo)
 /* changes may be required to this function */
 void insert_pfifo(PriorityFIFO* pfifo, uint32_t id, uint32_t priority)
 {
-   mutex_lock(&pfifo->accessCR);
+   mutex_lock(&pfifo->access);                        // Get exclusive access to the FIFO
+   
    require (pfifo != NULL, "NULL pointer to FIFO");   // a false value indicates a program error
    require (id <= MAX_ID, "invalid id");              // a false value indicates a program error
    require (priority > 0 && priority <= MAX_PRIORITY, "invalid priority value");  // a false value indicates a program error
+   
+   while(full_pfifo(pfifo)) {
+      cond_wait(&pfifo->not_full, &pfifo->access);    // Wait for the FIFO to be not full
+   }
+   
+   require (!full_pfifo(pfifo), "full FIFO");         // in a shared fifo, it may not result from a program error!
 
    //printf("[insert_pfifo] value=%d, priority=%d, pfifo->inp=%d, pfifo->out=%d\n", id, priority, pfifo->inp, pfifo->out);
-
-   /* wait while fifo is full */
-   while (full_pfifo(pfifo))
-   {
-      cond_wait(&pfifo->fifoNotFull, &pfifo->accessCR);
-   }
-   require (!full_pfifo(pfifo), "full FIFO");         // in a shared fifo, it may not result from a program error!
 
    uint32_t idx = pfifo->inp;
    uint32_t prev = (idx + FIFO_MAXSIZE - 1) % FIFO_MAXSIZE;
@@ -75,8 +75,8 @@ void insert_pfifo(PriorityFIFO* pfifo, uint32_t id, uint32_t priority)
    pfifo->cnt++;
    //printf("[insert_pfifo] pfifo->inp=%d, pfifo->out=%d\n", pfifo->inp, pfifo->out);
 
-   cond_broadcast(&pfifo->fifoNotEmpty);
-   mutex_unlock(&pfifo->accessCR);
+   cond_broadcast(&pfifo->not_empty);                 // Broadcast to wake up all threads waiting for the FIFO to be not empty
+   mutex_unlock(&pfifo->access);                      // Release exclusive access to the FIFO
 }
 
 /* --------------------------------------- */
@@ -84,19 +84,18 @@ void insert_pfifo(PriorityFIFO* pfifo, uint32_t id, uint32_t priority)
 /* changes may be required to this function */
 uint32_t retrieve_pfifo(PriorityFIFO* pfifo)
 {
-   mutex_lock(&pfifo->accessCR);
+   mutex_lock(&pfifo->access);                        // Get exclusive access to the FIFO
+
    require (pfifo != NULL, "NULL pointer to FIFO");   // a false value indicates a program error
-   
-   /* wait while fifo is empty */
-   while (empty_pfifo(pfifo)) 
-   {
-      cond_wait(&pfifo->fifoNotEmpty, &pfifo->accessCR);
+
+   while(empty_pfifo(pfifo)) {
+      cond_wait(&pfifo->not_empty, &pfifo->access);   // Wait for the FIFO to be not empty
    }
 
-   require (!empty_pfifo(pfifo), "empty FIFO");       // in a shared fifo, it may not result from a program error!
-   check_valid_id(pfifo->array[pfifo->out].id);
    check_valid_priority(pfifo->array[pfifo->out].priority);
-
+   check_valid_id(pfifo->array[pfifo->out].id);
+   require (!empty_pfifo(pfifo), "empty FIFO");       // in a shared fifo, it may not result from a program error!
+   
    uint32_t result = pfifo->array[pfifo->out].id;
    pfifo->array[pfifo->out].id = INVALID_ID;
    pfifo->array[pfifo->out].priority = INVALID_PRIORITY;
@@ -112,8 +111,8 @@ uint32_t retrieve_pfifo(PriorityFIFO* pfifo)
       idx = (idx + 1) % FIFO_MAXSIZE;
    }
 
-   cond_broadcast(&pfifo->fifoNotFull);
-   mutex_unlock(&pfifo->accessCR);
+   cond_broadcast(&pfifo->not_full);                  // Broadcast to wake up all threads waiting for the FIFO to be not full
+   mutex_unlock(&pfifo->access);                      // Release exclusive access to the FIFO
 
    return result;
 }
@@ -123,14 +122,8 @@ uint32_t retrieve_pfifo(PriorityFIFO* pfifo)
 /* changes may be required to this function */
 void print_pfifo(PriorityFIFO* pfifo)
 {
+   mutex_lock(&pfifo->access);                        // Get exclusive access to the FIFO
    require (pfifo != NULL, "NULL pointer to FIFO");   // a false value indicates a program error
-   mutex_lock(&pfifo->accessCR);
-
-   /* wait while fifo is empty */
-   while (empty_pfifo(pfifo)) 
-   {
-      cond_wait(&pfifo->fifoNotEmpty, &pfifo->accessCR);
-   }
 
    uint32_t idx = pfifo->out;
    for(uint32_t i = 1; i <= pfifo->cnt; i++)
@@ -141,6 +134,5 @@ void print_pfifo(PriorityFIFO* pfifo)
       idx = (idx + 1) % FIFO_MAXSIZE;
    }
 
-   cond_broadcast(&pfifo->fifoNotFull);
-   mutex_unlock(&pfifo->accessCR);
+   mutex_unlock(&pfifo->access);                      // Release excluse access to the FIFO
 }

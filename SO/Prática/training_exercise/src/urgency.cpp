@@ -18,8 +18,7 @@
 #include  <utils.h>
 #include  "settings.h"
 #include  "pfifo.h"
-
-//#include "thread.h"
+#include "thread.h"
 //#include "process.h"
 
 #include <iostream>
@@ -46,19 +45,19 @@ typedef struct
 typedef struct
 {
    int num_patients;
-   int num_doctors;
    int num_nurses;
+   int num_doctors;
    Patient all_patients[MAX_PATIENTS];
    PriorityFIFO triage_queue;
    PriorityFIFO doctor_queue;
 } HospitalData;
 
 HospitalData * hd = NULL;
-static pthread_t *patients_thrs;
-static pthread_t *nurses_thrs;
-static pthread_t *doctors_thrs;
-static pthread_mutex_t *patients_mutex;
-static pthread_cond_t *patients_ready_cond;
+static pthread_t* patient_thrs;
+static pthread_t* nurses_thrs;
+static pthread_t* doctor_thrs;
+static pthread_mutex_t* patient_mutex;       // Exclusive access for each patient
+static pthread_cond_t* patient_cond;         // Condition variable for each patient
 
 /**
  *  \brief patient verification test
@@ -69,27 +68,29 @@ int random_manchester_triage_priority();
 void new_patient(Patient* patient); // initializes a new patient
 void random_wait();
 
+/* ************************************************* */
+
 /* changes may be required to this function */
-void init_simulation(uint32_t np, uint32_t nd, uint32_t nn)
+void init_simulation(uint32_t np, uint32_t nn, uint32_t nd)
 {
    printf("Initializing simulation\n");
    hd = (HospitalData*)mem_alloc(sizeof(HospitalData)); // mem_alloc is a malloc with NULL pointer verification
    memset(hd, 0, sizeof(HospitalData));
    hd->num_patients = np;
-   hd->num_doctors = nd;
    hd->num_nurses = nn;
+   hd->num_doctors = nd;
 
-   patients_thrs = new pthread_t[np];
+   // Create all the necessary arrays with the correct size
+   patient_thrs = new pthread_t[np];
    nurses_thrs = new pthread_t[nn];
-   doctors_thrs = new pthread_t[nd];
-   patients_ready_cond = new pthread_cond_t[np];
-   patients_mutex = new pthread_mutex_t[np];
+   doctor_thrs = new pthread_t[nd];
+   patient_mutex = new pthread_mutex_t[np];
+   patient_cond = new pthread_cond_t[np];
 
+   // Initialize patient mutex and condition variable
    for (uint32_t i = 0; i < np; i++) {
-      cond_init(&patients_ready_cond[i], NULL);
-      mutex_init(&patients_mutex[i], NULL);
-      // patients_ready_cond[i] = PTHREAD_COND_INITIALIZER;
-      // patients_mutex[i] = PTHREAD_MUTEX_INITIALIZER;
+      mutex_init(&patient_mutex[i], NULL);
+      cond_init(&patient_cond[i], NULL);
    }
 
    init_pfifo(&hd->triage_queue);
@@ -97,14 +98,15 @@ void init_simulation(uint32_t np, uint32_t nd, uint32_t nn)
 }
 
 /* ************************************************* */
+
 void* nurse_life(void* arg) {
+   // Check the patitent queue
    while(1) {
       printf("\e[34;01mNurse: get next patient\e[0m\n");
-      u_int32_t patient = retrieve_pfifo(&hd->triage_queue);
+      uint32_t patient = retrieve_pfifo(&hd->triage_queue);
       check_valid_patient(patient);
-
       printf("\e[34;01mNurse: evaluate patient %u priority\e[0m\n", patient);
-      int priority = random_manchester_triage_priority();
+      uint32_t priority = random_manchester_triage_priority();
       printf("\e[34;01mNurse: add patient %u with priority %u to doctor queue\e[0m\n", patient, priority);
       insert_pfifo(&hd->doctor_queue, patient, priority);
    }
@@ -112,26 +114,51 @@ void* nurse_life(void* arg) {
    return NULL;
 }
 
+/*
+void nurse_iteration()
+{
+   printf("\e[34;01mNurse: get next patient\e[0m\n");
+   uint32_t patient = retrieve_pfifo(&hd->triage_queue);
+   check_valid_patient(patient);
+   printf("\e[34;01mNurse: evaluate patient %u priority\e[0m\n", patient);
+   uint32_t priority = random_manchester_triage_priority();
+   printf("\e[34;01mNurse: add patient %u with priority %u to doctor queue\e[0m\n", patient, priority);
+   insert_pfifo(&hd->doctor_queue, patient, priority);
+}
+*/
+
+/* ************************************************* */
+
 void* doctor_life(void* arg) {
    while(1) {
       printf("\e[32;01mDoctor: get next patient\e[0m\n");
-      u_int32_t patient = retrieve_pfifo(&hd->doctor_queue);
-
+      uint32_t patient = retrieve_pfifo(&hd->doctor_queue);
       check_valid_patient(patient);
       printf("\e[32;01mDoctor: treat patient %u\e[0m\n", patient);
       random_wait();
       printf("\e[32;01mDoctor: patient %u treated\e[0m\n", patient);
-      
-      mutex_lock(&patients_mutex[patient]);
-      hd->all_patients[patient].done = 1;
-      
-      cond_broadcast(&patients_ready_cond[patient]);
-      mutex_unlock(&patients_mutex[patient]);
-   }
 
+      mutex_lock(&patient_mutex[patient]);
+      hd->all_patients[patient].done = 1;
+      cond_broadcast(&patient_cond[patient]);
+      mutex_unlock(&patient_mutex[patient]);
+   }
+   
    return NULL;
 }
 
+/*
+void doctor_iteration()
+{
+   printf("\e[32;01mDoctor: get next patient\e[0m\n");
+   uint32_t patient = retrieve_pfifo(&hd->doctor_queue);
+   check_valid_patient(patient);
+   printf("\e[32;01mDoctor: treat patient %u\e[0m\n", patient);
+   random_wait();
+   printf("\e[32;01mDoctor: patient %u treated\e[0m\n", patient);
+   hd->all_patients[patient].done = 1;
+}
+*/
 /* ************************************************* */
 
 void patient_goto_urgency(int id)
@@ -145,28 +172,29 @@ void patient_goto_urgency(int id)
 /* changes may be required to this function */
 void patient_wait_end_of_consultation(int id)
 {
-   mutex_lock(&patients_mutex[id]);
-   check_valid_name(hd->all_patients[id].name);
-   
-   while (hd->all_patients[id].done != 1)
-   {
-      cond_wait(&patients_ready_cond[id], &patients_mutex[id]);
+   mutex_lock(&patient_mutex[id]);           // Exclusive access for the patient
+
+   while(hd->all_patients[id].done == 0) {
+      cond_wait(&patient_cond[id], &patient_mutex[id]);
    }
-   
+
+   check_valid_name(hd->all_patients[id].name);
    printf("\e[30;01mPatient %s (number %u): health problems treated\e[0m\n", hd->all_patients[id].name, id);
-   mutex_unlock(&patients_mutex[id]);
+
+   mutex_unlock(&patient_mutex[id]);         // Release exclusive access for the patient
 }
 
 /* changes are required to this function */
-void* patient_life(void* arg)
-{
+void* patient_life(void* arg) {
    int id = *(int *)arg;
    free(arg);
+
    patient_goto_urgency(id);
    //nurse_iteration();  // to be deleted in concurrent version
    //doctor_iteration(); // to be deleted in concurrent version
    patient_wait_end_of_consultation(id);
    memset(&(hd->all_patients[id]), 0, sizeof(Patient)); // patient finished
+
    return NULL;
 }
 
@@ -222,40 +250,29 @@ int main(int argc, char *argv[])
    srand(getpid());
 
    /* init simulation */
-   init_simulation(npatients, ndoctors, nnurses);
+   init_simulation(npatients, nnurses, ndoctors);
 
-   for (uint32_t i = 0; i < ndoctors; i++) {
-      thread_create(&doctors_thrs[i], NULL, doctor_life, NULL);
-   }
-
+   // Create nurses thread
    for (uint32_t i = 0; i < nnurses; i++) {
-      thread_create(&nurses_thrs[i], NULL, nurse_life, NULL);
+      pthread_create(&nurses_thrs[i], NULL, nurse_life, NULL);
    }
 
+   // Create doctors thread
+   for (uint32_t i = 0; i < nnurses; i++) {
+      pthread_create(&doctor_thrs[i], NULL, doctor_life, NULL);
+   }
+
+   // Create patients thread
    for (uint32_t i = 0; i < npatients; i++) {
       int *id = (int *)malloc(sizeof(int));
       *id = i;
-      thread_create(&patients_thrs[i], NULL, patient_life, (void *)id);
+      pthread_create(&patient_thrs[i], NULL, patient_life, id);
    }
 
+   // Create patients thread
    for (uint32_t i = 0; i < npatients; i++) {
-      thread_join(patients_thrs[i], NULL);
+      pthread_join(patient_thrs[i], NULL);
    }
-
-   /* Terminate the process */
-   for (uint32_t i = 0; i < ndoctors; i++) {
-      thread_detach(doctors_thrs[i]);
-   }
-
-   for (uint32_t i = 0; i < nnurses; i++) {
-      thread_detach(nurses_thrs[i]);
-   }
-   
-   for (uint32_t i = 0; i < npatients; i++) {
-      cond_destroy(&patients_ready_cond[i]);
-      mutex_destroy(&patients_mutex[i]);
-   }
-   free(hd);
 
    return EXIT_SUCCESS;
 }
@@ -304,3 +321,4 @@ void random_wait()
 {
    usleep((useconds_t)(MAX_WAIT*(double)rand()/(double)RAND_MAX));
 }
+
