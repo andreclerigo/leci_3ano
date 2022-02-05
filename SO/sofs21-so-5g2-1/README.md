@@ -166,9 +166,9 @@ no matter the directory where they are executed.
 
 
 ## Authors
-[André Clérigo](https://github.com/andreclerigo)
-[Cláudio Asensio](https://github.com/ClaudioAsensio)
-[Diogo Jesus](https://github.com/diogopjesus)
-[Miguel Tavares](https://github.com/FastMiguel099)
-[Tiago Marques](https://github.com/Tiagura)
-[Pedro Rodrigues](https://github.com/pedromtrodrigues)
+[André Clérigo](https://github.com/andreclerigo)  
+[Cláudio Asensio](https://github.com/ClaudioAsensio)  
+[Diogo Jesus](https://github.com/diogopjesus)  
+[Miguel Tavares](https://github.com/FastMiguel099)  
+[Tiago Marques](https://github.com/Tiagura)  
+[Pedro Rodrigues](https://github.com/pedromtrodrigues)  
