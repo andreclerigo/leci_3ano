@@ -40,4 +40,4 @@ python -m pygame.examples.aliens
 
 # Grades
 1st delivery: 15,4  
-2nd delibery: 12,2
+2nd delibery: 15,8
