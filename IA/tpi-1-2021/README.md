@@ -13,3 +13,5 @@ git fetch upstream
 git checkout master
 git merge --allow-unrelated-histories upstream/master
 
+## Grade
+17,4
