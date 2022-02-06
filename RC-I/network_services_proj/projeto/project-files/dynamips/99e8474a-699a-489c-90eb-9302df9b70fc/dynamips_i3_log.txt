@@ -1,0 +1,19 @@
+Dec 14 08:59:52.257 HYPERVISOR: Release 0.2.21-amd64/Linux (tag 2019071212)
+Dec 14 08:59:52.257 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 38511.
+Dec 14 08:59:52.267 HYPERVISOR: exec_cmd: hypervisor version 
+Dec 14 08:59:52.268 HYPERVISOR: exec_cmd: hypervisor working_dir /home/andre/github/redes_projeto/projeto/project-files/dynamips 
+Dec 14 08:59:52.268 GENERAL: working_dir=/home/andre/github/redes_projeto/projeto/project-files/dynamips
+Dec 14 08:59:52.268 HYPERVISOR: exec_cmd: ethsw create Marketing 
+Dec 14 08:59:52.642 HYPERVISOR: exec_cmd: nio create_udp udp-06fb3a54-fb4f-44e6-8dba-c557a3984e6d 10004 127.0.0.1 10005 
+Dec 14 08:59:52.643 HYPERVISOR: exec_cmd: ethsw add_nio Marketing udp-06fb3a54-fb4f-44e6-8dba-c557a3984e6d 
+Dec 14 08:59:52.657 HYPERVISOR: exec_cmd: ethsw set_access_port Marketing udp-06fb3a54-fb4f-44e6-8dba-c557a3984e6d 1 
+Dec 14 08:59:52.735 HYPERVISOR: exec_cmd: nio create_udp udp-06049511-1c6b-48d5-bedc-3f3dc6541578 10006 127.0.0.1 10007 
+Dec 14 08:59:52.736 HYPERVISOR: exec_cmd: ethsw add_nio Marketing udp-06049511-1c6b-48d5-bedc-3f3dc6541578 
+Dec 14 08:59:52.738 HYPERVISOR: exec_cmd: ethsw set_access_port Marketing udp-06049511-1c6b-48d5-bedc-3f3dc6541578 1 
+Dec 14 08:59:53.451 HYPERVISOR: exec_cmd: nio create_udp udp-93a2593a-e5b7-42ee-8117-3a221b6b5769 10019 127.0.0.1 10018 
+Dec 14 08:59:53.452 HYPERVISOR: exec_cmd: ethsw add_nio Marketing udp-93a2593a-e5b7-42ee-8117-3a221b6b5769 
+Dec 14 08:59:53.462 HYPERVISOR: exec_cmd: ethsw set_access_port Marketing udp-93a2593a-e5b7-42ee-8117-3a221b6b5769 1 
+Dec 14 11:01:33.566 HYPERVISOR: exec_cmd: ethsw delete Marketing 
+Dec 14 11:01:33.612 HYPERVISOR: exec_cmd: hypervisor stop 
+Dec 14 11:01:33.797 HYPERVISOR: Stopped.
+Dec 14 11:01:33.797 GENERAL: reset done.

@@ -1,0 +1,21 @@
+conf t
+ip route 200.125.148.128 255.255.255.128 220.3.4.6
+ipv6 route 2001:88::/60 2200:3:4:4::6
+int f0/0
+ip address 203.0.0.2 255.255.255.0
+no shut
+int f1/0
+ip address 220.3.4.5 255.255.255.252
+no shut
+conf t
+ipv6 unicast-routing
+int f0/0
+ipv6 enable
+ipv6 address 2300:A:A:A::2/64
+int f1/0
+ipv6 enable
+ipv6 address 2200:3:4:4::5/126
+no shut
+end
+write
+

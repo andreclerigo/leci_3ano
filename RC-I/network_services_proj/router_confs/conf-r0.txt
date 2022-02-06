@@ -1,0 +1,39 @@
+conf t
+ip route 0.0.0.0 0.0.0.0 10.158.0.1
+ipv6 route ::/0 2001:88:0::1
+int f0/0
+ip address 10.158.0.2 255.255.255.252
+no shut
+int f1/0
+ip address 200.125.148.190 255.255.255.192 
+ip address 10.158.1.254 255.255.255.0 secondary
+no shut
+int f1/1
+ip address 200.125.148.222 255.255.255.224
+ip address 10.158.2.254 255.255.255.0 secondary
+no shut
+conf t
+ipv6 unicast-routing
+int f1/0
+ipv6 enable
+ipv6 address 2001:88:0:1::1/64
+int f0/0
+ipv6 enable
+ipv6 address 2001:88:0::2/126
+int f1/1
+ipv6 enable
+ipv6 address 2001:88:0:2::1/64
+no shut
+conf t
+service dhcp
+ip dhcp pool design
+network 10.158.1.128 255.255.255.128
+ip dhcp excluded-address 10.158.1.254
+default-router 10.158.1.254
+ip dhcp pool marketing
+network 10.158.2.128 255.255.255.128
+ip dhcp excluded-address 10.158.2.254
+default-router 10.158.2.254
+end
+write
+

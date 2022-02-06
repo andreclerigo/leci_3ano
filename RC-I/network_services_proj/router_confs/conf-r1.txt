@@ -1,0 +1,31 @@
+conf t
+ip route 0.0.0.0 0.0.0.0 220.3.4.5
+ip route 10.158.0.0 255.255.0.0 10.158.0.2
+ip route 200.125.148.128 255.255.255.128 10.158.0.2
+ipv6 route ::/0 2200:3:4:4::5
+ipv6 route 2001:88::/60 2001:88:0::2
+ip nat pool NATPOOL1 200.125.148.224 200.125.148.234 netmask 255.255.255.240
+access-list 2 permit 10.158.0.0 0.0.255.255
+ip nat inside source list 2 pool NATPOOL1 overload
+end
+conf t
+int f0/0
+ip address 220.3.4.6 255.255.255.252
+ip nat outside
+no shut
+int f1/0
+ip address 10.158.0.1 255.255.255.252
+ip nat inside
+no shut
+end
+cont t
+ipv6 unicast-routing
+int f0/0
+ipv6 enable
+ipv6 address 2200:3:4:4::6/126
+int f1/0
+ipv6 enable
+ipv6 address 2001:88:0::1/126
+no shut
+write
+
