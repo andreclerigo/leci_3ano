@@ -2,8 +2,8 @@
 Ano: 2021/2022
 
 ## 1º Semestre do 3º Ano
-#### Sistemas de Operação (SO) : 
-#### Segurança Informática e nas Organizações (SIO) : 
+#### Sistemas de Operação (SO) : 15
+#### Segurança Informática e nas Organizações (SIO) : 16
 #### Inteligência Artificial (IA) : 
 #### Redes de Comunicações-I (RC-I) : 
 
