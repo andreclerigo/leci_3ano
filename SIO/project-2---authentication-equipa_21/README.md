@@ -116,10 +116,10 @@ python3 uap.py
 8. Clique em Secure Login e insira as credenciais da sua UAP
 
 ## Authors
-André Clérigo, 98485
+[André Clérigo](https://github.com/andreclerigo), 98485  
+[Cláudio Asensio](https://github.com/ClaudioAsensio), 98433  
+[Hugo Domingos](https://github.com/Hugo-Domingos), 98502  
+[Tiago Marques](https://github.com/Tiagura), 98459  
 
-Cláudio Asensio, 98433
-
-Hugo Domingos, 98502
-
-Tiago Marques, 98459
+## Grade
+18,5
