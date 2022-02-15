@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="/public/img/uap.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/public/js/script.js"></script>
+    <title>UAP</title>
+</head>
+<body class="center bg-dark">
+    <nav class="navbar sticky-top navbar-light bg-light">
+        <div class="row w-100">
+            <div class="col-2">
+                <a href="/" class="navbar-brand">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    UAP Vault
+                </a>
+            </div>
+            <div class="col"></div>
+            <div class="col-" style="margin-right: 20px;">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".change_password">
+                    Change Password
+                </button>
+            </div>
+            <div class="col-" style="margin-right: 20px;">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-sm">
+                    Add Credential
+                    <i class="bi bi-globe2"></i>
+                </button>
+            </div>
+            <div class="col-" style="margin-right: 20px;">
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
+    {}
+    {}
+    <div class="modal fade bd-example-modal-sm"  tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <form class="w-100" method="get" action="add_credential">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Credential</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col">
+                            <label for="recipient-name" class="col-form-label">DNS</label>
+                            <input type="text" class="form-control mt-2" name="dns" id="dns" placeholder="DNS">
+                        </div>
+                        <div class="col">
+                            <label for="recipient-name" class="col-form-label">Username</label>
+                            <input type="text" class="form-control mt-2" name="username" id="username" placeholder="Username">
+                        </div>
+                        <div class="col">
+                            <label for="recipient-name" class="col-form-label">Password</label>
+                            <input type="password" class="form-control mt-2" name="password" id="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-sm change_password"  tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+            <form class="w-100" method="get" action="change_password">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Change Password</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Username</label>
+                            <input type="text" class="form-control" name="username" id="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Current Password</label>
+                            <input type="password" class="form-control" name="current_password" id="current_password" placeholder="Current Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">New Password</label>
+                            <input type="password" class="form-control" name="new_password" id="new_password" placeholder="New Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" name="confirm_new_password" id="confirm_new_password" placeholder="New Password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p>{}</p>
+</body>
+</html>
