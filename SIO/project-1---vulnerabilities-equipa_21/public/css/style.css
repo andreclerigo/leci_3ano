@@ -1,0 +1,15 @@
+.body {
+    align-content: center;
+    margin: auto,
+}
+
+.card {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+}
+
+.a-hidden, .a-hidden:hover, .a-hidden:focus, .a-hidden:active {
+    text-decoration: none;
+    color: inherit;
+}
