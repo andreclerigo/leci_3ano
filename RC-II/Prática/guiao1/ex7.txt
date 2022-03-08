@@ -1,0 +1,4 @@
+Q: Which terminals do not have connectivity with PCA and PCB? Explain the reason.
+A: Só temos conectividade entre os PCs da VLAN1 e entre o Switch, isto acontece porque os outros elementos estão fora da VLAN1 (conectados através das interfaces 0/X)
+
+
