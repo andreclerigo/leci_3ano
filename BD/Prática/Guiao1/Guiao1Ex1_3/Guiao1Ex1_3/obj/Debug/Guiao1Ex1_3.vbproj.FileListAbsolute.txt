@@ -1,0 +1,11 @@
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\bin\Debug\Guiao1Ex1_3.exe.config
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\bin\Debug\Guiao1Ex1_3.exe
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\bin\Debug\Guiao1Ex1_3.pdb
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\bin\Debug\Guiao1Ex1_3.xml
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\obj\Debug\Guiao1Ex1_3.Form1.resources
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\obj\Debug\Guiao1Ex1_3.Resources.resources
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\obj\Debug\Guiao1Ex1_3.vbproj.GenerateResource.cache
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\obj\Debug\Guiao1Ex1_3.vbproj.CoreCompileInputs.cache
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\obj\Debug\Guiao1Ex1_3.exe
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\obj\Debug\Guiao1Ex1_3.xml
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3\Guiao1Ex1_3\obj\Debug\Guiao1Ex1_3.pdb

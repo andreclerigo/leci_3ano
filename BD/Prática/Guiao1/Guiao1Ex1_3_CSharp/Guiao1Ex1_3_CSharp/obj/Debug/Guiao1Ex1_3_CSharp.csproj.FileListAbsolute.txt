@@ -1,0 +1,10 @@
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\obj\Debug\Guiao1Ex1_3_CSharp.csproj.AssemblyReference.cache
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\obj\Debug\Guiao1Ex1_3_CSharp.Form1.resources
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\obj\Debug\Guiao1Ex1_3_CSharp.Properties.Resources.resources
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\obj\Debug\Guiao1Ex1_3_CSharp.csproj.GenerateResource.cache
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\obj\Debug\Guiao1Ex1_3_CSharp.csproj.CoreCompileInputs.cache
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\bin\Debug\Guiao1Ex1_3_CSharp.exe.config
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\bin\Debug\Guiao1Ex1_3_CSharp.exe
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\bin\Debug\Guiao1Ex1_3_CSharp.pdb
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\obj\Debug\Guiao1Ex1_3_CSharp.exe
+C:\Users\AndréClérigo\source\repos\Guiao1Ex1_3_CSharp\Guiao1Ex1_3_CSharp\obj\Debug\Guiao1Ex1_3_CSharp.pdb
