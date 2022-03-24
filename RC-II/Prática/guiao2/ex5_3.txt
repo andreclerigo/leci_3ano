@@ -1,0 +1,11 @@
+5.3)
+
+1. Yes 	| ARP & ICMP
+2. Yes	| ICMP
+3. Yes	| ARP & ICMP
+4. No	| ICMP
+5. Yes	| ICMP
+6. Yes	| ICMP
+7. Yes	| ARP & ICMP
+8. Yes	| ICMP
+

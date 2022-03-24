@@ -1,0 +1,4 @@
+5.4)
+
+- O procedimento na troca de informação é exatamente igual quando comparado com a utilização de um Router.
+- Com o Switch L3 conseguimos criar uma rede única para uma VLAN independemente da interface usada, e há mais simplicidade porque vários pontos de acesso podem usar a mesma configuração usando portas trunk (fica mais escalável).
