@@ -1,0 +1,4 @@
+6.6)
+
+Só afeta o comportamento da rede quando o Hello Time da root bridge altera
+

@@ -1,0 +1,4 @@
+6.3)
+
+A root vai sendo sucessivamente escolhida a patir da Bridge que tem menor custo. Em caso de desempate usa-se o menor valor da MAC Address
+
