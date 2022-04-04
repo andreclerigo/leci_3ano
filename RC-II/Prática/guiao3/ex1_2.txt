@@ -1,0 +1,6 @@
+1.2)
+
+- As routing tables contém as sub-redes da network porque o procolo RIP está ativado em todas elas
+- A network 192.168.3.0 aparece com o mascara errada porque estamos a usar a versão 1 do RIP e estava versão não anuncia as mascaras das sub-redes
+- As mascaras das redes são assumidas com base na mascara da interface de receção
+

@@ -1,0 +1,3 @@
+1.7)
+
+Reirou as redes da tabela de encaminhamento (192.168.3.3 e 10.1.3.1) e anunciou as restantes com métrica 16 para acelerar o processo de convergência das restantes redes

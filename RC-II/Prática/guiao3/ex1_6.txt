@@ -1,0 +1,4 @@
+1.6)
+
+Como o Split Horizon está desligado, o Router 1 recebe todas as redes
+

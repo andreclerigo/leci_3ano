@@ -1,0 +1,8 @@
+1.5)
+
+- RIPV2
+- IPv4 Dest: 224.0.0.9, Corre sobre UDP Dest Port: 520
+- Route Tag, Next Hop e Netmask
+- Esta a ser usado porque o router não envia o vetor de distãncias completo
+- o RIPv2 funciona fazendo com que os routers anunciem as redes que a eles tem acesso. A rede anunciada numa interface X teve que ter sido recebida por uma interface != X.
+
