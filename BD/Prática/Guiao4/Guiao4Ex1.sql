@@ -1,0 +1,68 @@
+CREATE TABLE CLIENTE (
+	NIF INT NOT NULL,
+	nome VARCHAR(30) NOT NULL,
+	endereco VARCHAR(30) NOT NULL,
+	CHECK (NIF > 0 AND NIF < 999999),
+	PRIMARY KEY (NIF)
+);
+
+CREATE TABLE TIPO_VEICULO (
+	designacao VARCHAR(10) NOT NULL,
+	tipo INT NOT NULL,
+	arcondicionado BIT NOT NULL,
+	PRIMARY KEY (tipo)
+);
+
+CREATE TABLE VEICULO (
+	marca VARCHAR(30) NOT NULL,
+	matricula VARCHAR(6) NOT NULL,
+	ano INT NOT NULL CHECK (ano > 1884),
+	tipo INT NOT NULL,
+	PRIMARY KEY (matricula),
+	FOREIGN KEY (tipo) REFERENCES TIPO_VEICULO(tipo)
+);
+
+CREATE TABLE PESADO (
+	peso INT NOT NULL CHECK (peso > 0),
+	tipo INT NOT NULL,
+	passageiros	INT NOT NULL CHECK (passageiros > 0),
+	PRIMARY KEY (tipo),
+	FOREIGN KEY (tipo) REFERENCES TIPO_VEICULO(tipo)
+);
+
+CREATE TABLE LIGEIRO (
+	num_lugares	INT	NOT NULL CHECK (num_lugares > 0),
+	tipo INT NOT NULL,
+	portas INT NOT NULL CHECK (portas > 0),
+	combustivel VARCHAR(15)	NOT NULL,
+	PRIMARY KEY (tipo),
+	FOREIGN KEY (tipo) REFERENCES TIPO_VEICULO(tipo)
+);
+
+CREATE TABLE SIMILARIDADE (
+	tipo_a	INT	NOT NULL,
+	tipo_b	INT	NOT NULL,
+	PRIMARY KEY (tipo_a, tipo_b),
+	FOREIGN KEY (tipo_a) REFERENCES TIPO_VEICULO(tipo),
+	FOREIGN KEY (tipo_b) REFERENCES TIPO_VEICULO(tipo)
+);
+
+CREATE TABLE BALCAO (
+	nome VARCHAR(30) NOT NULL,
+	numero INT NOT NULL,
+	endereco VARCHAR(30) NOT NULL,
+	PRIMARY KEY (numero)
+);
+
+CREATE TABLE ALUGUER (
+	NIF_cliente	INT NOT NULL,
+	numero	INT	NOT NULL,
+	duracao	INT	NOT NULL CHECK (duracao > 0),
+	data_aluguer DATE NOT NULL,
+	matricula VARCHAR(6) NOT NULL,
+	numero_balcao INT NOT NULL,
+	PRIMARY KEY (numero),
+	FOREIGN KEY (NIF_cliente) REFERENCES CLIENTE(NIF),
+	FOREIGN KEY (numero_balcao) REFERENCES BALCAO(numero),
+	FOREIGN KEY (matricula)	REFERENCES VEICULO(matricula)
+);
