@@ -1,0 +1,2 @@
+NODEP_EMP = σEssn= null (dependent ⟖Essn=Ssn employee)
+π Fname,Minit,Lname (department ⨝Mgr_ssn=Ssn NODEP_EMP)

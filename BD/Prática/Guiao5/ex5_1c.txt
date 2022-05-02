@@ -1,0 +1,2 @@
+WORKED_TABLE = γ Pno;sum(Hours) -> total_worked works_on
+π Pname, total_worked (project ⨝Pnumber=Pno WORKED_TABLE)

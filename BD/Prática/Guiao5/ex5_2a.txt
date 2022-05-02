@@ -1,0 +1,1 @@
+π nome (σ fornecedor=null (encomenda ⟗fornecedor=nif fornecedor))

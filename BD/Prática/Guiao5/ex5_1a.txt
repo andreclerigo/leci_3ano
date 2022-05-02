@@ -1,0 +1,2 @@
+EMP_LST = project ⨝ Dno=Dnum employee
+π Pname,Ssn,Fname,Lname (EMP_LST)

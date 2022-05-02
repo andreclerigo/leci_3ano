@@ -1,0 +1,1 @@
+πnome,paciente.numUtente (σ numPresc=null (prescricao ⟗prescricao.numUtente=paciente.numUtente paciente))

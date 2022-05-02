@@ -1,0 +1,2 @@
+PROJECT_LST = σDlocation!='Aveiro'∧Plocation='Aveiro' (project ⨝Dnum=Dnumber dept_location)
+π Fname,Minit,Lname,Address (employee ⨝Dno=Dnum PROJECT_LST)

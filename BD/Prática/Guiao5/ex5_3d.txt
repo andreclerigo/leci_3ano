@@ -1,0 +1,3 @@
+FARMACO_906 = πfarmaco.nome (σ numRegFarm=906 (farmaco ⨝numRegFarm=numReg farmaceutica))
+PRESC_906 = πnomeFarmaco (σ numRegFarm=906 presc_farmaco)
+FARMACO_906 - PRESC_906

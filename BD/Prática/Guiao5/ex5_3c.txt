@@ -1,0 +1,1 @@
+γ nome; count(numPresc)->total_presc (prescricao ⨝farmacia=nome farmacia)

@@ -1,0 +1,1 @@
+γ;avg(num_prod)->media (γ numEnc;count(codProd)-> num_prod (item))

@@ -1,0 +1,2 @@
+TWOORMORE_DEP = σ count_dep>1 (γ Essn; count(Essn) -> count_dep dependent)
+π Fname,Minit,Lname (TWOORMORE_DEP ⨝Essn=Ssn employee)

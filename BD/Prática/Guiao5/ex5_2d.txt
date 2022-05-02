@@ -1,0 +1,2 @@
+AUX_TABLE = γ codProd,fornecedor;sum(unidades)->qnt_total (item ⨝numEnc=numero encomenda)
+π fornecedor.nome,produto.nome,qnt_total (AUX_TABLE ⨝fornecedor=nif fornecedor ⨝codProd=codigo produto)

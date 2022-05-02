@@ -1,0 +1,3 @@
+CARLOS_SSN = π Mgr_ssn←Ssn (σ Fname='Carlos' ∧ Minit='D' ∧ Lname='Gomes' (employee))
+EMP_LST = employee ⨝ Super_ssn=Mgr_ssn CARLOS_SSN
+π Fname,Lname (EMP_LST)

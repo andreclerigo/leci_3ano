@@ -1,0 +1,3 @@
+FARM_SELLED = σfarmacia!=null (presc_farmaco ⨝presc_farmaco.numPresc=prescricao.numPresc prescricao)
+AUX_TABLE = γ farmacia, numRegFarm; count(numRegFarm)->qtd_farmacos FARM_SELLED
+πfarmacia,nome,qtd_farmacos (AUX_TABLE ⨝numRegFarm=numReg farmaceutica)

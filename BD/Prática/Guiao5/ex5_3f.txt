@@ -1,0 +1,2 @@
+UTENTE_2MED = σ medicos_dif>1 (γ numUtente; count(numMedico)->medicos_dif (π numUtente,numMedico prescricao))
+πnome (paciente ⨝paciente.numUtente=prescricao.numUtente UTENTE_2MED)

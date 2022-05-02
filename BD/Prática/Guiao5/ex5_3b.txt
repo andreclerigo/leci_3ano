@@ -1,0 +1,1 @@
+γespecialidade;count(numPresc)->total_presc (prescricao ⨝numMedico=numSNS medico)
