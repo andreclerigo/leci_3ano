@@ -1,0 +1,1 @@
+Os IDs mudaram para os corretos e as tabelas não mudaram porque anteriormente configurei primeiro o R1, depois o R2 e finalmente o R3

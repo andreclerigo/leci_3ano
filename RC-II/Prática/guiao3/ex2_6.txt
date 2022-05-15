@@ -1,0 +1,6 @@
+Só é afetado as rotas do R2 para a interface f0/1 do R3. Em R1 a rota para a netB é eliminada o caminho por R2 porque tem um custo maior do que por R3.
+O custo é a soma das portas de saída dos Routers.
+
+Exemplo, do R2 para f1/0 de R3 temos 2 caminhos:
+1 -  f0/0 (R2) + f1/0 (R3) = 51
+2 -  f0/1 (R2) + f0/0 (R1) + f1/0 (R3) = 3
