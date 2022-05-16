@@ -1,0 +1,1 @@
+Camada de abstração para indicar qual o tipo de dados que vão seguir no campo de dados do pacote IPv4

@@ -1,0 +1,1 @@
+Não há conectividade na rede porque o Router A não suporta IPv6. Existe conectividade entre as extremidades do tunel (via IPv6) quando eles se pingam umas as outras

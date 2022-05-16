@@ -1,0 +1,2 @@
+Q: Why is not the static router active in the routing table
+A: Because the tunnel doesn't have an assigned IP yet
