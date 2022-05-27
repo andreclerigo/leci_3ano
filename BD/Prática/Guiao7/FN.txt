@@ -1,0 +1,3 @@
+1F - Atributos nao podem ser multivalor e nao podem ter nested relations
+2F - Nao pode ter dependencias parciais
+3F - Nao pode ter dependencias transitivas
