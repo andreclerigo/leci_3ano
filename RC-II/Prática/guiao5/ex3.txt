@@ -1,0 +1,1 @@
+Agora os routers têm acesso aos next hops porque é um router com o qual tem conectividade. Logo, há conectividade entre a rede toda

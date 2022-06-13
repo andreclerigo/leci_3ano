@@ -1,0 +1,3 @@
+As relacoes IPv6 são estabelecidas da mesma maneira que no IPv4
+
+Como o MP é uma extensao do BGP, o MP_BGP tem que correr sobre BGP, logo o campo NLRI tem que ser guardado para o IPv4 e o MP_REACH_NLRI é usado para quando o BGP é corrido sobre IPv6

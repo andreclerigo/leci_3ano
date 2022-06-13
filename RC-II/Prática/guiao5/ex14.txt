@@ -1,0 +1,1 @@
+Sempre que o AS 1002 quiser comunicar para o exterior, não vai usar a rota default do AS 1003

@@ -1,0 +1,3 @@
+a) É importante não anunciar redes privadas para o exterior do Sistema Autonomo porque esta gama de redes não é única. Pode ser repetida por vários Sistemas Autonomos
+
+b) Retirando as rotas por defeito fazemos com o nosso sistema deixe de ser um sistema autonomo de transito (que encaminhe pacotes para outras redes)

@@ -1,0 +1,3 @@
+A rede à qual o Router deixou de ter conectividade está no campo MP_UNREACH_NLRI com a tag "Withdraw routes"
+Quando é para adicionar uma nova rede a informacao vem no campo MP_REACH_NLRI
+

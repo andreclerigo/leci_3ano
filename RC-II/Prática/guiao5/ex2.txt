@@ -1,0 +1,2 @@
+- Como o next hop de algumas redes não está na sua tabela de encaminhamento, nao adiciona essa rede à sua tabela.
+

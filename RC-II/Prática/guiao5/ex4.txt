@@ -1,0 +1,4 @@
+b) OPEN MESSAGE - Serve para iniciar a conexao e ver se as configuracoes batem certo
+KEEP ALIVE - Trocar mensagens periodicas para ver se está tudo correto
+
+c) 

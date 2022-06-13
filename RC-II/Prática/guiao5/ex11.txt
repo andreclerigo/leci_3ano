@@ -1,0 +1,3 @@
+O protocolo está a anunciar a rede privada porque está dentro da área que é visivel
+Esta rede não deveria ser anunciada porque é uma rede privada e por isso pode ser reutilizada por varias areas
+
