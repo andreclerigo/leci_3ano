@@ -8,10 +8,10 @@ Ano: 2021/2022
 #### Sistemas de Operação (SO) : 15
 
 ## 2º Semestre do 3º Ano
-#### Análise de Sistemas (AS) : 
-#### Base de Dados (BD) : 
-#### Interação Humano-Computador (IHC) : 
-#### Redes de Comunicações-II (RC-II) : 
+#### Análise de Sistemas (AS) : 16
+#### Base de Dados (BD) : 17
+#### Interação Humano-Computador (IHC) : 15
+#### Redes de Comunicações-II (RC-II) : 16
 
 ## Cadeira Anual
-#### Projeto em Egenharia de Computadores e Informática (PECI) : 
+#### Projeto em Egenharia de Computadores e Informática (PECI) : 17
