@@ -1,0 +1,16 @@
+Z:\ProjectBD\Project\Project\bin\Debug\Project.exe.config
+Z:\ProjectBD\Project\Project\bin\Debug\Project.exe
+Z:\ProjectBD\Project\Project\bin\Debug\Project.pdb
+Z:\ProjectBD\Project\Project\obj\Debug\Project.csproj.AssemblyReference.cache
+Z:\ProjectBD\Project\Project\obj\Debug\Project.Main.resources
+Z:\ProjectBD\Project\Project\obj\Debug\Project.Properties.Resources.resources
+Z:\ProjectBD\Project\Project\obj\Debug\Project.csproj.GenerateResource.cache
+Z:\ProjectBD\Project\Project\obj\Debug\Project.csproj.CoreCompileInputs.cache
+Z:\ProjectBD\Project\Project\obj\Debug\Project.exe
+Z:\ProjectBD\Project\Project\obj\Debug\Project.pdb
+Z:\ProjectBD\Project\Project\obj\Debug\Project.ReservaData.resources
+Z:\ProjectBD\Project\Project\obj\Debug\Project.Reserva.resources
+Z:\ProjectBD\Project\Project\obj\Debug\Project.AddAtleta.resources
+Z:\ProjectBD\Project\Project\obj\Debug\Project.AddFunc.resources
+Z:\ProjectBD\Project\Project\obj\Debug\Project.AddEstabelec.resources
+Z:\ProjectBD\Project\Project\obj\Debug\Project.Consulta.resources
