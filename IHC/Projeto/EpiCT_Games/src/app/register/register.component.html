@@ -1,0 +1,87 @@
+<mat-dialog-actions class="mx-auto">
+    <div class="col"></div>
+
+    <div class="col mx-auto my-auto">
+        <h2 class="text-center" style="margin: unset !important" mat-dialog-title>Registar</h2>
+    </div>
+    
+    <div class="col" style="position: relative;">
+        <mat-icon class="close" (click)="close()">close</mat-icon>
+    </div>
+</mat-dialog-actions>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="col">
+            <div class="row my-3 mx-auto">
+                    <div class="col d-flex justify-content-center">
+                        <mat-form-field class="mx-auto" color="accent">
+                            <mat-label>Primeiro Nome</mat-label>
+                            <input matInput appearance="fill" placeholder="John" formControlName="fname" required>
+                            <mat-error *ngIf="form.controls['fname'].invalid">Você deve inserir um nome</mat-error>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="col d-flex justify-content-center">
+                        <mat-form-field class="mx-auto" color="accent">
+                            <mat-label>Último Nome</mat-label>
+                            <input matInput placeholder="Doe" formControlName="lname" required>
+                            <mat-error *ngIf="form.controls['lname'].invalid">Você deve inserir um nome</mat-error>
+                        </mat-form-field>
+                    </div>
+            </div>
+
+            <div class="row my-3 mx-auto">
+                <mat-form-field class="mx-auto" color="accent">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="name@example.com" formControlName="email" required>
+                    <mat-error *ngIf="form.controls['email'].invalid">{{getErrorMessageEmail()}}</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row my-3 mx-auto">
+                <mat-form-field color="accent">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" (input)="onPasswordInput()" required>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password?.hasError('required')">Você deve inserir uma password</mat-error>
+                    <mat-error *ngIf="password?.hasError('minlength')">A password deve ter no minímo {{minPw}} caracteres</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row my-3 mx-auto">
+                <mat-form-field color="accent">
+                    <mat-label>Confirmar Password</mat-label>
+                    <input matInput [type]="hide_confirm ? 'password' : 'text'" formControlName="password2" (input)="onPasswordInput()" required>
+                    <button mat-icon-button matSuffix (click)="hide_confirm = !hide_confirm" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide_confirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password2?.hasError('required')">Confirme a sua password</mat-error>
+                    <mat-error *ngIf="password2?.invalid && !password2?.hasError('required')">As passwords não são iguais</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row my-3 mx-auto">
+                <mat-checkbox formControlName="company" (change)="companyChange()">Sou uma empresa</mat-checkbox>
+            </div>
+
+            <div *ngIf="company?.value" class="row my-3 mx-auto">
+                <mat-form-field class="mx-auto" color="accent">
+                    <mat-label>NIF</mat-label>
+                    <input matInput placeholder="500xxxxxxxxx" formControlName="nif" (input)="onNifInput()" required>
+                    <mat-error *ngIf="nif?.hasError('required')">Insira um nif</mat-error>
+                    <mat-error *ngIf="form.controls['nif'].invalid && !nif?.hasError('required')">Você deve inserir um nif válido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row text-center">
+                <p>Ja tens conta? <span (click)="login()">Faz login agora!</span></p>
+            </div>
+
+            <div class="row mt-4 mb-1 mx-auto">
+                <button mat-raised-button color="accent" type="submit" mat-button>Registar</button>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>

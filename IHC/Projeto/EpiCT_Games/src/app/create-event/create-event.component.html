@@ -1,0 +1,106 @@
+<mat-dialog-actions class="mx-auto">
+    <div class="col"></div>
+
+    <div class="col mx-auto my-auto">
+        <h2 class="text-center" style="margin: unset !important" mat-dialog-title>Criar Evento</h2>
+    </div>
+    
+    <div class="col" style="position: relative;">
+        <mat-icon class="close" (click)="close()">close</mat-icon>
+    </div>
+</mat-dialog-actions>
+<mat-dialog-content class="mat-typography mt-3">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="col">
+            <div class="row my-3 mx-auto">
+                <mat-form-field color="accent" appearance="outline">
+                    <mat-label>Nome do evento</mat-label>
+                    <input matInput placeholder="Nome do evento"formControlName="nome" required>
+                    <mat-error *ngIf="nome?.hasError('required')">Defina um nome do evento</mat-error>
+                    <mat-error *ngIf="form.controls['nome'].invalid && !nome?.hasError('required')">Insira um Titulo do Evento válido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row my-3 mx-auto">
+                <div class="col">
+                    <mat-select-country class="my-auto" color="accent" appearance="outline"
+                        label="País"
+                        formControlName="localizacao"
+                        [required]="true">
+                    </mat-select-country>
+                </div>
+
+                <div class="col">
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>Cidade/Estado</mat-label>
+                        <input matInput formControlName="cidade" required>
+                        <mat-error *ngIf="cidade?.hasError('required')">Insira uma cidade</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            
+            <div class="row my-3 mx-auto">
+                <div class="col">
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>Data do Evento</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input matStartDate formControlName="dataI" (dateChange)="onDateInput()" placeholder="Start date">
+                            <input matEndDate formControlName="dataF" (dateChange)="onDateInput()" placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                        <mat-error *ngIf="dataI?.hasError('required')">Defina uma data de inicio</mat-error>
+                        <mat-error *ngIf="dataF?.hasError('required')">Defina uma data de término</mat-error>
+                        <mat-error *ngIf="dataI?.invalid && !dataI?.hasError('required')">Insira uma data de inicio válida</mat-error>
+                        <mat-error *ngIf="dataF?.invalid && !dataF?.hasError('required')">Insira uma data de término válida</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col">
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>Preço para participante</mat-label>
+                        <input matInput formControlName="preço" required>
+                        <mat-icon matSuffix style="transform: scale(1.1);">euro</mat-icon>
+                        <mat-hint>10,00</mat-hint>
+                        <mat-error *ngIf="preco?.hasError('required')">Defina um preço de entrada</mat-error>
+                        <mat-error *ngIf="form.controls['preço'].invalid && !preco?.hasError('required')">Preço inválido</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row my-3 mx-auto">
+                <div class="col">
+                    <mat-form-field color="accent" appearance="outline" style="width:100%;">
+                        <mat-label>Hora de Início</mat-label>
+                        <input matInput formControlName="hora" required>
+                        <mat-icon matSuffix style="transform: scale(1.1);">schedule</mat-icon>
+                        <mat-hint>HH:MM</mat-hint>
+                        <mat-error *ngIf="hora?.hasError('required')">Defina uma hora</mat-error>
+                        <mat-error *ngIf="form.controls['hora'].invalid && !hora?.hasError('required')">Introduza uma hora válida</mat-error>
+                    </mat-form-field>     
+                </div>
+
+                <div class="col">
+                    <mat-form-field color="accent" appearance="outline">
+                        <mat-label>Jogo</mat-label>
+    
+                        <input type="text" matInput [matAutocomplete]="auto2" (input)="onGameInput()" formControlName="jogo" >
+                        <mat-icon matSuffix style="transform: scale(1.1);">sports_esports</mat-icon>
+                        <mat-error *ngIf="jogo?.hasError('required')">Defina um Jogo</mat-error>
+                        <mat-error *ngIf="jogo?.invalid && !jogo?.hasError('required')">Jogo Inválido</mat-error>
+                    
+                        <mat-autocomplete #auto2="matAutocomplete">
+                            <mat-option *ngFor="let jogo of filteredOptions2 | async" [value]="jogo.title" multiple>
+                                {{jogo.title}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+            
+            <div class="row mt-4 mb-1 mx-auto">
+                <button mat-raised-button color="primary" type="submit">Entrar</button>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>

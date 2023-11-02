@@ -1,0 +1,59 @@
+img {
+    padding: 0px;
+    border: 3px;
+    border-color: black;
+    border-radius: 40px;
+    border-style: solid;
+    object-fit: cover; /*this makes the image in src fit to the size specified below*/
+    width: 80%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+    aspect-ratio: 1/1;
+}
+
+.mat-raised-button {
+    margin: auto;
+    width: 48%;
+}
+
+span {
+    text-align: center;
+    width: 20%;
+    font-weight: 450;
+}
+
+p {
+    font-size: 1.1rem;
+}
+
+b {
+    font-weight: 450;
+}
+
+mat-divider {
+    width: 95%;
+    margin-left: 2%;
+    border-top-width: 2px;
+    border-top-color: darkgrey;
+}
+
+#title {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.price{
+    text-align: center;
+    margin-right: auto;
+    font-size: 30px;
+}
+
+#comment{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    width: 25rem;
+    height: 9rem;
+    padding: 10px;
+    font-size: 20px;
+    word-break: break-all;
+}

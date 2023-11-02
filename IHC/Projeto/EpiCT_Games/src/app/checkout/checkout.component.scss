@@ -1,0 +1,44 @@
+mat-stepper {
+    background-color: transparent;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+mat-card {
+    cursor: pointer;
+    margin: 30px;
+    text-align: center;
+}
+
+img{
+    object-fit: cover; /*this makes the image in src fit to the size specified below*/
+    max-width: 70%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+    aspect-ratio: 1/1;
+    margin: auto;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+h2 {
+    margin: auto;
+    text-align: center;
+}
+
+p {
+    font-size: 1.15rem;
+}
+
+b {
+    font-size: 1.27rem;
+    font-weight: 500;
+}
+
+.cart {
+    p {
+        font-size: 1rem
+    }
+    b {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+}

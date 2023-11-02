@@ -1,0 +1,26 @@
+<mat-card [class.mat-elevation-z2]="!isActive1" [class.mat-elevation-z8]="isActive1" (mouseenter)="isActive1 = true" (mouseleave)="isActive1 = false">
+    <mat-card-content>
+        <div class="row">
+            <div class="col-4 d-flex justify-content-start">
+                <img *ngIf="data.img" src="{{data.img}}">
+                <img *ngIf="!data.img" src="assets/img/events/event_default.jpg">
+            </div>
+
+            <div class="col">
+                <h1>{{data.title}}</h1>
+                <mat-divider class="mb-2" inset></mat-divider>
+                <p>{{data.location}}</p>
+                <p *ngIf="data.game.length == 1">{{data.game}}</p>
+                <p *ngIf="data.game.length > 1">{{data.game}}</p>
+                <p><b>Início: </b> {{dateToString(data.start_date)}}<br><b>Fim: </b> {{dateToString(data.end_date)}}</p>
+                <p><b>Hora de Início: </b> {{data.hour}}</p>
+            </div>
+
+            <div class="col-2 d-flex mt-auto justify-content-end">
+                <button (click)="addCart()" mat-raised-button class="d-flex justify-content-center float-end" color="accent">
+                    {{data.price}} <mat-icon>local_activity </mat-icon> 
+                </button>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,23 @@
+.mat-raised-button {
+    width: 25%;
+    margin: auto;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-icon {
+    color: grey
+}
+
+.close {
+    color: red !important;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    margin: auto;
+}

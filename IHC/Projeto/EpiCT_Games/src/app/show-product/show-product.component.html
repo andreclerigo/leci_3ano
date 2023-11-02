@@ -1,0 +1,92 @@
+<div class="row w-100 h-100">
+    <div class="col">
+        <div class="row my-3"></div>
+
+        <div class="row">
+            <div class="col-5">
+                <div class="row">
+                    <img class="mx-auto" src="{{product?.image}}" >
+                </div>
+                
+                <div class="row d-flex justify-content-center my-4" style="font-size: 1.3rem ;">
+                    <mat-icon *ngFor="let i of [].constructor(filledStar)">star</mat-icon>
+                    <mat-icon *ngFor="let i of [].constructor(halfStar == true ? 1 : 0)">star_half</mat-icon> 
+                    <mat-icon class="material-icons-outlined" *ngFor="let i of [].constructor(emptyStar)">grade</mat-icon>
+                    <span class="my-auto">{{product.rating}} / 5.0</span>
+                </div>           
+            </div>
+            
+            <div class="col ml-3">
+                <div class="row mb-3">
+                    <h1 id="title">{{product?.title}}</h1>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <p><b>Plataformas: </b>{{platforms(product)}}</p>
+                        </div>
+
+                        <div class="row">
+                            <p><b>Categorias: </b>{{categories(product)}}</p>
+                        </div>
+
+                        <div class="row">
+                            <p><b>Restrição de Idade: </b>{{product?.pegi}}</p>
+                        </div>
+                        
+                        <div class="row">
+                            <p><b>Descrição: </b>{{product?.description}}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-5 h-100"> 
+                        <div class="row my-auto">
+                            <h2 class="price">{{product?.key_price}}</h2>
+                            <button (click)="addCartKey()" mat-raised-button color="accent">Adicionar Chave
+                                <mat-icon style="transform: rotate(45deg);">key</mat-icon>
+                            </button>                            
+                        </div>
+
+                        <div class="row my-5">
+                            <h2 class="price">{{product?.price}}</h2>
+                            <button *ngIf="product.price != null" (click)="addCartCD()" mat-raised-button color="accent">Adicionar CD
+                                <mat-icon>album</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4 mb-2 mx-5">
+            <mat-divider></mat-divider>
+            <h1 class="mt-3" style="margin-left: 2%; font-weight: 450;">Comentários</h1>
+        </div>
+
+        <div class="row mx-5">
+            <!-- display product comments in cols -->
+            <div class="col" *ngFor="let comment of product?.comments" >
+                <div class="col">
+                    <mat-card id="comment" class="mat-elevation-z8">
+                        {{comment}}
+                    </mat-card>
+                </div>
+            </div>
+
+            <div class="col">
+                <mat-card id="comment" class="mat-elevation-z8">
+                    <form [formGroup]="form">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Send message</mat-label>
+                            <input  matInput type="text" formControlName="msg" >
+                            <button *ngIf="form.get('msg')?.value" matSuffix mat-icon-button aria-label="Clear" (click)="addComment()">
+                                <mat-icon>send</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </form>
+                </mat-card>
+            </div> 
+        </div>
+    </div>
+</div>

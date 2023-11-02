@@ -1,0 +1,64 @@
+@use '@angular/material' as mat;
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined");
+@import "@angular/material/theming";
+
+@include mat.core();
+
+$my-purple: (
+    50 : #efe4f4,
+    100 : #d7bce3,
+    200 : #bd8fd1,
+    300 : #a362be,
+    400 : #8f41b0,
+    500 : #7b1fa2,
+    600 : #731b9a,
+    700 : #681790,
+    800 : #5e1286,
+    900 : #4b0a75,
+    A100 : #d8a6ff,
+    A200 : #c273ff,
+    A400 : #ac40ff,
+    A700 : #a126ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+
+$angular-primary: mat.define-palette($my-purple, 500, 100, 900);
+$angular-accent: mat.define-palette(mat.$deep-purple-palette, 600, 100, 900);
+$angular-warn: mat.define-palette(mat.$red-palette);
+
+$angular-default-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+
+@include mat.all-component-themes($angular-default-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { 
+  height: 100%;
+  background-color: #dfe0e2;
+}
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

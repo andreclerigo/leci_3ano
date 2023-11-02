@@ -1,0 +1,43 @@
+<mat-toolbar color="primary">
+    <div class="col-3">
+        <a mat-button routerLink="/home"> <img src="assets/logo.png" style="height: 4rem"> </a> 
+    </div>
+
+    <div class="col-5">
+        <mat-form-field>
+            <mat-label>Pesquisar</mat-label>
+            <input matInput (keydown.enter)="search()" (keyup)="applyFilter($event)" #input>
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div style="width: 60px;"></div>
+
+    <div class="col">
+        <button mat-icon-button (click)="redirectCart()" [matBadge]="cart_number" [matBadgeHidden]="cart_number == 0" matBadgeColor="accent"> 
+            <mat-icon>shopping_cart</mat-icon>
+        </button>
+    </div>
+
+    <div *ngIf="!loggedIn" class="col"></div>
+    <div *ngIf="!loggedIn" class="col">
+        <button mat-button (click)="redirectLogin()">Login<mat-icon>login</mat-icon></button>
+    </div>
+    <div *ngIf="!loggedIn" class="col mr-4">
+        <button mat-button (click)="redirectRegister()">Registo<mat-icon>app_registration</mat-icon></button>
+    </div>
+
+    <div *ngIf="loggedIn" class="col"></div>
+    <div *ngIf="company" class="col-1">
+        <button mat-button (click)="redirectCreateEvent()">Criar evento<mat-icon>event</mat-icon></button>
+    </div>
+    <div *ngIf="loggedIn" class="col-">
+        <button mat-button>Perfil<mat-icon>account_circle</mat-icon></button>
+    </div>
+    <div *ngIf="loggedIn" class="col-1">
+        <button mat-button (click)="logout()">Logout<mat-icon>exit_to_app</mat-icon></button>
+    </div>
+
+</mat-toolbar>
+
+<router-outlet></router-outlet>

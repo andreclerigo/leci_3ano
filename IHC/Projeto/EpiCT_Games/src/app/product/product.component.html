@@ -1,0 +1,22 @@
+<mat-card [class.mat-elevation-z2]="!isActive1" [class.mat-elevation-z8]="isActive1" (mouseenter)="isActive1 = true" (mouseleave)="isActive1 = false">
+    <mat-card-content (click)="open_game()">
+        <img src="{{data.image}}">
+        <mat-divider inset></mat-divider>
+    </mat-card-content>
+
+    <h2 (click)="open_game()">{{data.title}}</h2>
+
+    <mat-card-actions>
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button color="accent" style="width: 100%;" (click)="open_game()">{{data.key_price}}</button>
+            </div>
+
+            <div class="col-4">
+                <button mat-raised-button color="accent" (click)="addCart()">
+                    <mat-icon>shopping_cart</mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-card-actions>
+</mat-card>

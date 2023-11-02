@@ -1,0 +1,91 @@
+<div class="row d-flex justify-content-center w-100 h-90">
+    <div class="col-1"></div>
+
+    <div class="col">
+        <div class="row my-5">
+            <h1>Carrinho de compras</h1>
+        </div>
+
+        <div class="row">
+            <div class="col"><p class="header">Item</p></div>
+    
+            <div class="col"><p class="header">Descrição</p></div>
+            
+            <div class="col"><p class="header">Preço</p></div>
+
+            <div class="col"><p class="header">Formato</p></div>
+    
+            <div class="col"><p class="header">Quantidade</p></div>
+    
+            <div class="col"><p class="header">Total</p></div>
+
+            <mat-divider class="my-3" style="color: black; background-color: black"></mat-divider>
+        </div>
+
+
+        <div class="row d-flex my-3" *ngFor="let item of cart">
+            <div class="col h-100 my-auto">
+                <img src="{{item.image}}" alt="{{item.title}}">
+            </div>
+    
+            <div class="col h-100 my-auto">
+                <p>{{item.title}}</p>
+            </div>
+
+            <div class="col h-100 my-auto">
+                <p>{{productPrice(item)}}</p>
+            </div>
+    
+            <div class="col h-100 my-auto">
+                <p>{{productType(item)}}</p>
+            </div>
+    
+            <div class="col h-100 my-auto d-flex">
+                <mat-form-field color="accent" appearance="outline">
+                    <input matInput type="number" (change)="changeQty(item, $event)" value="{{item.qty}}">
+                </mat-form-field>
+            </div>
+    
+            <div class="col h-100 my-auto">
+                <div class="row">
+                    <div class="col">
+                        <p>{{totalPriceProduct(item.qty, item.key_price)}} €</p>
+                    </div>
+
+                    <div class="col-2">
+                        <mat-icon color="warn" (click)="removeItem(item)">close</mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row d-flex mt-3 mb-5">
+            <div class="col"></div>
+    
+            <div class="col-2 mx-2">
+                <div class="row h-50"></div>
+
+                <div class="row h-50">
+                    <button mat-raised-button color="warn" style="width: 100%;" (click)="resetCart()">
+                        Esvaziar Carrinho
+                        <mat-icon>delete_forever</mat-icon>
+                    </button>
+                </div>
+            </div>
+    
+            <div class="col-3 mx-2">
+                <div class="row h-50"><p>Total da Encomenda: {{totalPriceCart()}} €</p></div>
+                
+                <div class="row h-50">
+                    <button mat-raised-button [disabled]="cart.length == 0" color="accent" routerLink="/checkout">
+                        Finalizar Compra
+                        <mat-icon>done_all</mat-icon>
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-1"></div>
+</div>

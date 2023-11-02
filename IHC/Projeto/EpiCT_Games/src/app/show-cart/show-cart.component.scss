@@ -1,0 +1,32 @@
+img {
+    object-fit: fill;
+    /*this makes the image in src fit to the size specified below*/
+    width: 100%;
+    aspect-ratio: auto;
+}
+
+p {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+h1 {
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.header {
+    font-weight: 500;
+    text-align: center;
+}
+
+//input outline color
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #7b1fa2 !important;
+}
+
+.mat-form-field {
+    width: 30%;
+    text-align: center;
+    margin: auto;
+}

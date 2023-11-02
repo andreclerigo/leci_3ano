@@ -1,0 +1,189 @@
+<div class="row w-100">
+    <div class="col">
+        <mat-stepper class="mt-4">
+            <mat-step [stepControl]="infoForm" errorMessage="Preencha as informações">
+              <form [formGroup]="infoForm">
+                <ng-template matStepLabel>Informações</ng-template>
+                
+                <div class="col mt-5 mx-auto" style="width: 80%;">
+                    <div class="row my-3 d-flex justify-content-center">
+                        <mat-form-field class="mx-auto" appearance="fill">
+                            <mat-label>Nome</mat-label>
+                            <input matInput placeholder="João Alberto Silva" formControlName="name" required>
+                            <mat-error *ngIf="name?.hasError('required')">Preencha o nome</mat-error>
+                        </mat-form-field>
+                    </div>
+        
+                    <div class="row my-3 d-flex justify-content-center">
+                        <div class="col d-flex">
+                            <div class="col d-flex">
+                                <mat-select-country class="my-auto" appearance="fill"
+                                    label="País"
+                                    formControlName="country"
+                                    [required]="true">
+                                </mat-select-country>
+                            </div>
+                            
+                            <div class="col">
+                                <mat-form-field style="width: 90%" class="my-auto float-end" appearance="fill">
+                                    <mat-label>Cidade/Estado</mat-label>
+                                    <input matInput placeholder="Lisboa" formControlName="city" required>
+                                    <mat-error *ngIf="city?.hasError('required')">Escolha uma cidade</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div> 
+        
+                        <div class="col d-flex">
+                            <mat-form-field style="width: 100%" appearance="fill">
+                                <mat-label>Morada</mat-label>
+                                <input matInput placeholder="Rua Principal Nº1 1ºEsq" formControlName="address" required>
+                                <mat-error *ngIf="address?.hasError('required')">Preencha a morada</mat-error>
+                            </mat-form-field>
+                        </div>            
+                    </div>
+        
+                    <div class="row my-3">
+                        <div class="col d-flex justify-content-center">
+                            <mat-form-field style="width: 100%" class="mx-auto" appearance="fill">
+                                <mat-label>Código de Postal</mat-label>
+                                <input matInput placeholder="1000-001" formControlName="post_code" (input)="onPostCodeInput()" required>
+                                <mat-error *ngIf="post_code?.hasError('required')">Preencha a código de postal</mat-error>
+                                <mat-error *ngIf="post_code?.invalid && !post_code?.hasError('required')">Formato errado</mat-error>
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="col d-flex justify-content-center">
+                            <mat-form-field style="width: 100%" class="mx-auto" appearance="fill">
+                                <mat-label>NIF</mat-label>
+                                <input matInput formControlName="nif" (input)="onNifInput()">
+                                <mat-error *ngIf="nif?.invalid && !nif?.hasError('required')">Formato errado</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <button class="mt-4" mat-button matStepperNext>Próximo<mat-icon>navigate_next</mat-icon></button>
+                </div>   
+              </form>
+            </mat-step>
+        
+            <mat-step [stepControl]="paymentForm" errorMessage="Selecione método de pagamento">
+              <form [formGroup]="paymentForm">
+                <ng-template matStepLabel>Pagamento</ng-template>
+                
+                <div class="col mt-3">
+                    <mat-radio-group formControlName="payment" required>
+                        <div class="row">
+                            <div class="col">
+                                <mat-card (click)="selectPayment('paypal', $event)" [class.mat-elevation-z2]="!isActive1" [class.mat-elevation-z8]="isActive1"
+                                    (mouseenter)="isActive1 = true" (mouseleave)="isActive1 = false">
+                                    <mat-card-content>
+                                        <img src="assets/img/paypal.png">
+        
+                                        <mat-divider></mat-divider>
+                                    </mat-card-content>
+                                    
+                                    <h2>Paypal</h2>
+                                    <mat-radio-button class="mt-2" color="primary" [checked]="checked1" [value]="'paypal'"></mat-radio-button>
+                                </mat-card>
+                            </div>
+        
+                            <div class="col">
+                                <mat-card (click)="selectPayment('credit_card', $event)" [class.mat-elevation-z2]="!isActive2" [class.mat-elevation-z8]="isActive2"
+                                    (mouseenter)="isActive2 = true" (mouseleave)="isActive2 = false">
+                                    <mat-card-content>
+                                        <img src="assets/img/visa-master.png">
+        
+                                        <mat-divider></mat-divider>
+                                    </mat-card-content>
+                                    
+                                    <h2>Cartão Crédito/Débito</h2> 
+                                    <mat-radio-button class="mt-2" color="primary" [checked]="checked2" [value]="'card'"></mat-radio-button>
+                                </mat-card>
+                            </div>
+        
+                            <div class="col">
+                                <mat-card (click)="selectPayment('mbway', $event)" [class.mat-elevation-z2]="!isActive3" [class.mat-elevation-z8]="isActive3"
+                                    (mouseenter)="isActive3 = true" (mouseleave)="isActive3 = false">
+                                    <mat-card-content>
+                                        <img src="assets/img/mbway.png">
+        
+                                        <mat-divider></mat-divider>
+                                    </mat-card-content>
+                                    
+                                    <h2>MB Way</h2>
+                                    <mat-radio-button class="mt-2" color="primary" [checked]="checked3" [value]="'mbway'"></mat-radio-button>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </mat-radio-group>
+        
+                    <div *ngIf="checked3" class="row">
+                        <div class="col"></div>
+                        <div class="col"></div>
+        
+                        <div class="col d-flex justify-content-center">
+                            <mat-form-field class="mx-auto my-auto" style="width: 80%;" appearance="fill">
+                                <mat-label>Número de Telefone</mat-label>
+                                <input matInput formControlName="phone" (input)="onPhoneInput()">
+                                <mat-error *ngIf="phone?.hasError('required')">Preencha o número de telemóvel</mat-error>
+                                <mat-error *ngIf="phone?.invalid && !phone?.hasError('required')">Formato errado</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <button class="mt-4 mr-3" mat-button matStepperPrevious><mat-icon>navigate_before</mat-icon> Anterior</button>
+                    <button class="mt-4 mx-3" mat-button matStepperNext>Próximo <mat-icon>navigate_next</mat-icon></button>
+                    </div>
+              </form>
+            </mat-step>
+        
+            <mat-step>
+                <ng-template matStepLabel>Confirmar Dados</ng-template>
+        
+                <div class="col mt-5 mx-auto" style="width: 95%;">
+                    <div class="row mx-auto" style="height: 10vh;" *ngIf="!infoForm.valid || !paymentForm.valid">
+                        <span style="font-size: 2rem; text-align: center;">
+                            <mat-icon class="my-auto" style="transform: scale(4); margin-right: 3vw;" color="warn">error</mat-icon>
+                            Informação submetida não é válida
+                        </span>
+                    </div>
+        
+                    <div *ngIf="infoForm.valid && paymentForm.valid" style="margin-left: 3%">
+                        <p class="my-4"><b>Nome:</b> {{infoForm.get('name')?.value}}</p>
+                        <p class="my-4"><b>Pais:</b> {{infoForm.get('country')?.value?.name}}</p>
+                        <p class="my-4"><b>Cidade:</b> {{infoForm.get('city')?.value}}</p>
+                        <p class="my-4"><b>Morada:</b> {{infoForm.get('address')?.value}}</p>
+                        <p class="my-4"><b>Código de Postal:</b> {{infoForm.get('post_code')?.value}}</p>
+                        <p class="my-4"><b>NIF:</b> {{infoForm.get('nif')?.value == '' ? 'Não preenchido' : infoForm.get('nif')?.value}}</p>
+                    </div>
+                
+                    <button class="mt-4" mat-button matStepperPrevious><mat-icon>navigate_before</mat-icon> Anterior</button>
+                    <button class="mt-4 mr-3" mat-raised-button color="accent" [disabled]="!infoForm.valid || !paymentForm.valid" (click)="checkoutDone()">Finalizar <mat-icon>check</mat-icon></button>
+                </div>
+            </mat-step>
+        </mat-stepper>
+    </div>
+    
+    <div class="col-3 mt-5 cart">
+        <p class="mt-5 mb-2"><b>Carrinho</b></p>
+        <div class="row my-3" *ngFor="let prod of cart">
+            <div class="col-2">
+                <p style="text-align: right;">{{prod.qty}} x</p>
+            </div>
+    
+            <div class="col">
+                <p>{{prod.title}} - {{productType(prod)}}</p>
+            </div>
+    
+            <div class="col-3">
+                <p>{{totalPriceProduct(prod) + ' €'}} </p>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-2"></div>
+            <div class="col"><p>Total da encomenda</p></div>
+
+            <div class="col-3"><p>{{totalPriceCart() + ' €'}}</p></div>
+        </div>
+    </div>    
+</div>

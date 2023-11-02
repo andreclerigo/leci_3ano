@@ -1,0 +1,48 @@
+mat-card {
+    background-color: #7b1fa2;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+mat-card img {
+    object-fit: fill;
+    /*this makes the image in src fit to the size specified below*/
+    width: 100%;
+    aspect-ratio: auto;
+    /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-weight: 550;
+}
+
+p {
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+mat-divider {
+    border-top-width: 1.5px;
+    border-top-color: darkgrey;
+}
+
+.mat-raised-button {
+    font-size: 1.3rem;
+    width: 100%;
+    align-items: center;
+}
+
+mat-icon {
+    margin-top: auto;
+    margin-bottom: auto;
+    transform: scale(1.1);
+}

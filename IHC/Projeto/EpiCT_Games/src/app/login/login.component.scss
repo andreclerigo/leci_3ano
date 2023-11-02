@@ -1,0 +1,29 @@
+.mat-raised-button {
+    width: 50%;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+}
+
+span {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #7b1fa2;
+}
+
+span:hover {
+    color: #512DA8;
+}
+
+.close {
+    color: red !important;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    height: fit-content;
+    margin: auto;
+}

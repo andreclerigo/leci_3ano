@@ -1,0 +1,43 @@
+<mat-dialog-actions class="mx-auto">
+    <div class="col"></div>
+
+    <div class="col mx-auto my-auto">
+        <h2 class="text-center" style="margin: unset !important" mat-dialog-title>Login</h2>
+    </div>
+    
+    <div class="col" style="position: relative;">
+        <mat-icon class="close" (click)="close()">close</mat-icon>
+    </div>
+</mat-dialog-actions>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="col">
+            <div class="row my-3 mx-auto">
+                <mat-form-field color="accent">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="name@example.com" formControlName="email" required>
+                    <mat-error *ngIf="form.controls['email'].invalid">{{getErrorMessageEmail()}}</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row my-3 mx-auto">
+                <mat-form-field color="accent">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.controls['password'].invalid">Você deve inserir uma password</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row text-center">
+                <p>Não tens conta? <span (click)="register()">Registe-se agora!</span></p>
+            </div>
+            
+            <div class="row mt-4 mb-1 mx-auto">
+                <button mat-raised-button color="accent" type="submit">Entrar</button>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
